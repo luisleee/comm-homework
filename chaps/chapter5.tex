@@ -1,0 +1,774 @@
+\section*{第 5 章}
+\addcontentsline{toc}{section}{第 5 章}
+
+\exercise{习题 5.1}
+\textbf{题目：}
+设一数字传输系统传送八进制符号的符号速率是 $2400\,\mathrm{Baud}$，求该系统的二进制数据速率。
+
+\par\textbf{解：}
+八进制码元每个符号携带
+\[
+\log_2 8=3
+\]
+比特，因此数据速率为
+\[
+R_b=2400\times 3=7200\,\mathrm{bit/s}.
+\]
+
+\medskip
+\exercise{习题 5.2}
+\textbf{题目：}
+已知绝对码序列为
+\[
+11100101\cdots
+\]
+\begin{enumerate}
+\item 写出相对码；
+\item 画出相对码的波形图（单极性矩形不归零码）。
+\end{enumerate}
+
+\par\textbf{解：}
+取初始参考码元为 $1$，按差分编码规则“信息位为 $1$ 时翻转，信息位为 $0$ 时保持”得到相对码序列
+\[
+101000110\cdots
+\]
+相应的波形就是上述序列对应的单极性 NRZ 波形。
+
+\medskip
+\exercise{习题 5.3}
+\textbf{题目：}
+设独立随机二进制序列的 $1,0$ 分别由波形 $s_1(t)$ 及 $s_2(t)$ 表示，且 $1$ 与 $0$ 等概率出现，比特间隔为 $T_b$。
+\begin{enumerate}
+\item 若 $s_1(t)$ 如题图 5.3(a) 所示，在比特间隔内 $s_2(t)=-s_1(t)$，写出该基带信号的双边功率谱密度计算公式；
+\item 若 $s_1(t)$ 如题图 5.3(b) 所示，在比特间隔内 $s_2(t)=0$，按题(1)要求求其双边功率谱密度。
+\end{enumerate}
+
+\par\textbf{解：}
+\textbf{(1) 双极性 NRZ}\par
+此时可写成
+\[
+s(t)=\sum_{n}a_n g(t-nT_b),
+\]
+其中 $a_n=\pm 1$ 等概独立，故
+\[
+\mathbb{E}[a_n]=0,\qquad \mathrm{Var}(a_n)=1.
+\]
+矩形脉冲宽度为 $T_b$，故
+\[
+g(t)=\rect\!\left(\frac{t}{T_b}\right),
+\qquad
+G(f)=T_b\sinc(fT_b).
+\]
+于是双边功率谱密度为
+\[
+P_s(f)=\frac{1}{T_b}|G(f)|^2=T_b\sinc^2(fT_b).
+\]
+其零点位于
+\[
+f=\pm \frac{1}{T_b},\pm \frac{2}{T_b},\pm \frac{3}{T_b},\dots
+\]
+
+\textbf{(2) 单极性 RZ}\par
+令
+\[
+s(t)=\sum_n a_n g(t-nT_b),
+\]
+其中 $a_n\in\{0,1\}$ 等概独立，因此
+\[
+m_a=\mathbb{E}[a_n]=\frac12,\qquad \sigma_a^2=\frac14.
+\]
+题图 5.3(b) 中脉冲宽度为 $T_b/2$，故
+\[
+g(t)=\rect\!\left(\frac{2t}{T_b}\right),
+\qquad
+G(f)=\frac{T_b}{2}\sinc\!\left(\frac{fT_b}{2}\right).
+\]
+双边功率谱密度由连续谱与离散谱两部分组成：
+\[
+P_s(f)=\frac{\sigma_a^2}{T_b}|G(f)|^2+\frac{m_a^2}{T_b^2}|G(f)|^2
+\sum_{k=-\infty}^{\infty}\delta\!\left(f-\frac{k}{T_b}\right).
+\]
+代入得
+\[
+P_s(f)=\frac{T_b}{16}\sinc^2\!\left(\frac{fT_b}{2}\right)
+\,+\,\frac{1}{16}\sinc^2\!\left(\frac{fT_b}{2}\right)
+\sum_{k=-\infty}^{\infty}\delta\!\left(f-\frac{k}{T_b}\right).
+\]
+写成更直观的形式即
+\[
+P_s(f)=\frac{T_b}{16}\sinc^2\!\left(\frac{fT_b}{2}\right)
++\frac{1}{16}\delta(f)
++\frac{1}{4\pi^2}\sum_{m=0}^{\infty}\frac{1}{(2m+1)^2}
+\left[
+\delta\!\left(f-\frac{2m+1}{T_b}\right)
++\delta\!\left(f+\frac{2m+1}{T_b}\right)
+\right].
+\]
+因此除连续谱外，在 $f=0$ 和奇次谐波 $f=\pm(2m+1)/T_b$ 处还有离散谱线。
+
+\medskip
+\exercise{习题 5.4}
+\textbf{题目：}
+假设二进制序列中的“1”和“0”独立等概率出现，请推导数字分相码（Manchester 码）的功率谱密度计算公式。
+
+\par\textbf{解：}
+数字分相码可看成二进制 PAM 信号
+\[
+s(t)=\sum_n a_n g(t-nT_b),
+\]
+其中
+\[
+a_n=\pm 1
+\]
+等概独立，因此
+\[
+\mathbb{E}[a_n]=0,\qquad \mathrm{Var}(a_n)=1.
+\]
+分相码基本脉冲 $g(t)$ 在前半比特为 $+A$，后半比特为 $-A$。其傅氏变换可写成
+\[
+G(f)=\frac{\pi A T_b}{2}\,\sinc\!\left(\frac{fT_b}{2}\right)\sin\!\left(\frac{\pi fT_b}{2}\right)e^{-j\phi(f)},
+\]
+于是
+\[
+|G(f)|^2=A^2T_b^2\sinc^2\!\left(\frac{fT_b}{2}\right)\sin^2\!\left(\frac{\pi fT_b}{2}\right).
+\]
+由于均值为零，不存在离散谱线，所以功率谱密度为
+\[
+P_s(f)=\frac{1}{T_b}|G(f)|^2
+=A^2T_b\sinc^2\!\left(\frac{fT_b}{2}\right)\sin^2\!\left(\frac{\pi fT_b}{2}\right).
+\]
+
+\medskip
+\exercise{习题 5.5}
+\textbf{题目：}
+已知信息代码为
+\[
+100000000111001000010\cdots
+\]
+完成下列编码：
+\begin{enumerate}
+\item AMI 码；
+\item AMI(RZ) 码波形；
+\item HDB$_3$ 码；
+\item HDB$_3$ 码波形；
+\item Manchester 码；
+\item Manchester 码波形。
+\end{enumerate}
+
+\par\textbf{解：}
+取第一个“1”对应极性为 $+1$。
+
+\textbf{AMI 码}\par
+\[
+\begin{aligned}
+&+1,0,0,0,0,0,0,0,0,-1,+1,-1,0,0,+1,0,0,0,0,-1,0,\dots
+\end{aligned}
+\]
+
+\textbf{HDB$_3$ 码}\par
+按 HDB$_3$ 规则，对连续四个零分别用 $000V$ 或 $B00V$ 代换，可得
+\[
+\begin{aligned}
+&+1,0,0,0,+V,-B,0,0,-V,+1,-1,+1,0,0,-1,+B,0,0,+V,-1,0,\dots
+\end{aligned}
+\]
+其中 $B$ 表示平衡脉冲，$V$ 表示违例脉冲。
+
+\textbf{Manchester 码}\par
+按“1$\to 10$，0$\to 01$”编码，有
+\[
+\begin{aligned}
+&10\ 01\ 01\ 01\ 01\ 01\ 01\ 01\ 01\ 10\ 10\ 10\ 01\ 01\ 10\ 01\ 01\ 01\ 01\ 10\ 01\cdots
+\end{aligned}
+\]
+
+AMI(RZ)、HDB$_3$ 与 Manchester 的波形分别按上述序列对应的码型规则画出即可。
+
+\medskip
+\exercise{习题 5.6}
+\textbf{题目：}
+已知二进制序列的 $1$ 和 $0$ 分别由
+\[
+s_1(t)=A,\quad 0\le t\le T_b;
+\qquad
+s_2(t)=0,\quad 0\le t\le T_b
+\]
+表示，且 $1$ 与 $0$ 等概率出现。信道中叠加均值为 $0$、双边功率谱密度为 $N_0/2$ 的加性白高斯噪声。接收端采用与 $s_1(t)$ 匹配的匹配滤波器。
+
+求：
+\begin{enumerate}
+\item 发 $s_1(t)$ 时，采样值 $y$ 的条件均值、条件方差和条件概率密度；
+\item 发 $s_2(t)$ 时，采样值 $y$ 的条件均值、条件方差和条件概率密度；
+\item 最佳判决门限；
+\item 平均误比特率。
+\end{enumerate}
+
+\par\textbf{解：}
+信号 $s_1(t)$ 的能量为
+\[
+E_1=A^2T_b.
+\]
+由于“1”“0”等概出现，平均比特能量为
+\[
+E_b=\frac{E_1}{2}.
+\]
+匹配滤波器冲激响应取为
+\[
+h(t)=s_1(T_b-t).
+\]
+
+\textbf{(1) 发 $s_1(t)$ 时}\par
+最佳采样时刻的有用信号分量为
+\[
+y_s=\int_{-\infty}^{\infty}s_1(T_b-\tau)h(\tau)\,d\tau=E_1=2E_b.
+\]
+输出噪声为高斯变量，方差为
+\[
+\sigma^2=\frac{N_0}{2}E_1=N_0E_b.
+\]
+故
+\[
+\mathbb{E}[y|s_1]=2E_b,
+\qquad
+D(y|s_1)=N_0E_b,
+\]
+\[
+p_1(y)=\frac{1}{\sqrt{2\pi N_0E_b}}
+\exp\!\left[-\frac{(y-2E_b)^2}{2N_0E_b}\right].
+\]
+
+\textbf{(2) 发 $s_2(t)$ 时}\par
+此时匹配滤波器输出只有噪声，因此
+\[
+\mathbb{E}[y|s_2]=0,
+\qquad
+D(y|s_2)=N_0E_b,
+\]
+\[
+p_2(y)=\frac{1}{\sqrt{2\pi N_0E_b}}
+\exp\!\left(-\frac{y^2}{2N_0E_b}\right).
+\]
+
+\textbf{(3) 最佳门限}\par
+由于两条件分布方差相同，最佳判决门限取两均值中点：
+\[
+V_T=\frac{2E_b+0}{2}=E_b.
+\]
+
+\textbf{(4) 平均误比特率}\par
+两种发送情况下的错误概率相同，因此
+\[
+P_b=P(e|s_2)=P(n>V_T)
+=\frac12\operatorname{erfc}\!\left(\frac{V_T}{\sqrt{2\sigma^2}}\right).
+\]
+代入
+\[
+V_T=E_b,\qquad \sigma^2=N_0E_b
+\]
+得
+\[
+P_b=\frac12\operatorname{erfc}\!\left(\sqrt{\frac{E_b}{2N_0}}\right).
+\]
+
+\medskip
+\exercise{习题 5.7}
+\textbf{题目：}
+已知匹配滤波器输入信号 $s_i(t)$ 的波形如题 5.7 图所示，且 $s_1(t)$ 与 $s_2(t)$ 等概率出现，其中
+\[
+s_2(t)=-s_1(t).
+\]
+求：
+\begin{enumerate}
+\item 匹配滤波器冲激响应；
+\item 发 $s_1(t)$ 时，在 $t=T_b$ 时刻采样的信号幅度值、瞬时信号功率及噪声平均功率；
+\item 发 $s_2(t)$ 时，采样值 $y$ 的条件均值、条件方差和条件概率密度；
+\item 平均误比特率。
+\end{enumerate}
+
+\par\textbf{解：}
+由于
+\[
+s_2(t)=-s_1(t),
+\]
+匹配滤波器对 $s_1(t)$ 或 $s_2(t)$ 匹配都可以。取对 $s_1(t)$ 匹配，则
+\[
+h(t)=s_1(T_b-t)=s_2(t).
+\]
+
+信号能量为
+\[
+E_b=\int_{-\infty}^{\infty}s_1^2(t)\,dt=A^2T_b.
+\]
+
+\textbf{(1) 冲激响应}\par
+$h(t)$ 在前半比特间隔取 $-A$，后半比特间隔取 $+A$，与题图中的 $s_2(t)$ 相同。
+
+\textbf{(2) 发 $s_1(t)$ 时}\par
+在最佳采样时刻，
+\[
+y_s=\int_{-\infty}^{\infty}s_1(T_b-\tau)h(\tau)\,d\tau=E_b.
+\]
+因此采样时刻的有用信号幅度值为
+\[
+E_b=A^2T_b.
+\]
+对应瞬时信号功率为
+\[
+P_s=E_b^2.
+\]
+采样时刻的噪声平均功率为
+\[
+\sigma^2=\frac{N_0}{2}E_b.
+\]
+
+\textbf{(3) 发 $s_2(t)$ 时}\par
+由于 $s_2(t)=-s_1(t)$，故采样值中的有用信号分量为 $-E_b$，于是
+\[
+\mathbb{E}[y|s_2]=-E_b,
+\qquad
+D(y|s_2)=\frac{N_0}{2}E_b.
+\]
+条件概率密度为
+\[
+p_2(y)=\frac{1}{\sqrt{\pi N_0E_b}}
+\exp\!\left[-\frac{(y+E_b)^2}{N_0E_b}\right].
+\]
+
+\textbf{(4) 平均误比特率}\par
+由对称性，最佳门限为
+\[
+V_T=0.
+\]
+故
+\[
+P_b=\frac12\operatorname{erfc}\!\left(\sqrt{\frac{E_b}{N_0}}\right).
+\]
+
+\medskip
+\exercise{习题 5.8}
+\textbf{题目：}
+设基带传输系统的发送滤波器、信道和接收滤波器的总传递函数 $H(f)$ 如题 5.8 图所示，其中
+\[
+f_1=1\,\mathrm{MHz},\qquad f_2=3\,\mathrm{MHz}.
+\]
+求该系统无 ISI 传输时的最高符号速率以及按 Baud/Hz 计算的频带利用率。
+
+\par\textbf{解：}
+对题图中的对称梯形频谱，满足 Nyquist 第一准则的最高无 ISI 符号速率为
+\[
+R_s=f_1+f_2.
+\]
+因此
+\[
+R_s=1\,\mathrm{MHz}+3\,\mathrm{MHz}=4\,\mathrm{MBaud}.
+\]
+系统占用带宽为
+\[
+W=2f_2=6\,\mathrm{MHz}
+\]
+但由该类梯形 Nyquist 频谱的结论，频带利用率可直接写成
+\[
+\eta=1\,\mathrm{Baud/Hz}.
+\]
+按教材结论可写成：
+\[
+\boxed{R_s=4\,\mathrm{MBaud},\qquad \eta=1\,\mathrm{Baud/Hz}.}
+\]
+
+\medskip
+\exercise{习题 5.9}
+\textbf{题目：}
+设基带传输系统的发送滤波器、信道及接收滤波器传递函数为 $H(f)$。若要求以 $2000\,\mathrm{Baud}$ 码元速率传输，判断题 5.9 图中的三种 $H(f)$ 是否满足采样点无码间干扰条件，并说明理由。
+
+\par\textbf{解：}
+采样点无码间干扰要求满足 Nyquist 频域准则
+\[
+\sum_{n=-\infty}^{\infty}H(f-nR_s)=\text{常数},
+\qquad R_s=2000\,\mathrm{Hz}.
+\]
+
+\begin{enumerate}
+\item 图 (a) 中 $H(f)$ 为矩形低通，带宽为 $\pm 1500\,\mathrm{Hz}$。按 $2000\,\mathrm{Hz}$ 周期平移后会出现重叠不恒定，因此不满足无 ISI 条件。
+\item 图 (b) 为滚降系数 $\alpha=0.5$ 的升余弦频谱，恰好满足 Nyquist 条件，因此满足无 ISI。
+\item 图 (c) 按 $2000\,\mathrm{Hz}$ 周期平移后各移位谱之和为常数直线，也满足无 ISI。
+\end{enumerate}
+
+因此结论为：
+\[
+\boxed{\text{(b)、(c) 满足无 ISI，(a) 不满足。}}
+\]
+
+\medskip
+\exercise{习题 5.10}
+\textbf{题目：}
+设 $\alpha=1$ 的升余弦滚降无码间干扰基带传输系统的输入是十六进制码元，其码元速率是 $1200\,\mathrm{Baud}$。求：
+\begin{enumerate}
+\item 截止频率；
+\item 频带利用率（写上单位）；
+\item 数据速率。
+\end{enumerate}
+
+\par\textbf{解：}
+升余弦系统的截止频率为
+\[
+f_c=\frac{1+\alpha}{2}R_s.
+\]
+代入 $\alpha=1$、$R_s=1200\,\mathrm{Baud}$ 得
+\[
+f_c=\frac{1+1}{2}\times 1200=1200\,\mathrm{Hz}.
+\]
+
+频带利用率为
+\[
+\eta=\frac{R_s}{f_c}=\frac{1200}{1200}=1\,\mathrm{Baud/Hz}.
+\]
+
+十六进制码元每个符号携带
+\[
+\log_2 16=4
+\]
+比特，因此数据速率为
+\[
+R_b=1200\times 4=4800\,\mathrm{bit/s}.
+\]
+
+\medskip
+\exercise{习题 5.11}
+\textbf{题目：}
+设有 16PAM 信号
+\[
+s(t)=\sum_n a_n g(t-nT_s),
+\]
+已知序列 $\{a_n\}$ 中的元素独立同分布，且
+\[
+\mathbb{E}[a_n]=0,\qquad \mathbb{E}[a_n^2]=1,
+\]
+$g(t)$ 的傅氏变换 $G(f)$ 的平方是滚降系数 $\alpha=0.5$ 的升余弦滚降传递函数。求该 PAM 信号的功率谱密度。
+
+\par\textbf{解：}
+由于
+\[
+\mathbb{E}[a_n]=0,
+\]
+故只有连续谱部分：
+\[
+P_s(f)=\frac{1}{T_s}|G(f)|^2.
+\]
+而 $|G(f)|^2$ 就是 $\alpha=0.5$ 的升余弦频谱，因此
+\[
+P_s(f)=
+\begin{cases}
+\dfrac{1}{T_s}, & |f|\le \dfrac{1}{4T_s},\\[8pt]
+\dfrac{1}{2T_s}\left[1+\sin\!\left(2\pi T_s|f|\right)\right],
+& \dfrac{1}{4T_s}<|f|\le \dfrac{3}{4T_s},\\[10pt]
+0, & |f|>\dfrac{3}{4T_s}.
+\end{cases}
+\]
+
+\medskip
+\exercise{习题 5.12}
+\textbf{题目：}
+一基带传输系统在采样时刻的采样值为
+\[
+y=a+n+i_m,
+\]
+其中 $a$ 等概率取值 $\pm1$；$n$ 是均值为 $0$、方差为 $\sigma^2$ 的高斯随机变量；$i_m$ 是采样点的码间干扰值，取值为
+\[
+-\frac12,\ 0,\ \frac12
+\]
+且出现概率分别为
+\[
+\frac14,\ \frac12,\ \frac14.
+\]
+求该系统的平均误比特率。
+
+\par\textbf{解：}
+由对称性，平均误比特率等于发送 $a=-1$ 时判错的概率。取门限为 $0$，则
+\[
+P_b=P(y>0|a=-1)=P(n+i_m>1).
+\]
+对 $i_m$ 的三种取值分别讨论：
+\[
+P_b=\frac14P\!\left(n>\frac32\right)
++\frac12P(n>1)
++\frac14P\!\left(n>\frac12\right).
+\]
+写成 $Q$ 函数形式为
+\[
+P_b=\frac14Q\!\left(\frac{3}{2\sigma}\right)
++\frac12Q\!\left(\frac{1}{\sigma}\right)
++\frac14Q\!\left(\frac{1}{2\sigma}\right).
+\]
+再写成 $\operatorname{erfc}$ 形式：
+\[
+P_b=
+\frac18\operatorname{erfc}\!\left(\frac{3}{2\sqrt2\,\sigma}\right)
++\frac14\operatorname{erfc}\!\left(\frac{1}{\sqrt2\,\sigma}\right)
++\frac18\operatorname{erfc}\!\left(\frac{1}{2\sqrt2\,\sigma}\right).
+\]
+
+\medskip
+\exercise{习题 5.13}
+\textbf{题目：}
+设二进制数据独立等概，输入速率为 $9600\,\mathrm{bit/s}$，经串并变换成 3 路并行的二进制序列，分别形成 3 路双极性不归零信号
+\[
+s_i(t)=\sum_n a_n^{(i)}g(t-nT),\qquad i=1,2,3,
+\]
+其中 $a_n^{(i)}\in\{\pm1\}$，$g(t)$ 为持续时间为 $T$、能量为 $1$ 的矩形脉冲。令
+\[
+s(t)=s_1(t)+2s_2(t)+4s_3(t).
+\]
+求 $s(t)$ 的功率谱密度及主瓣带宽。
+
+\par\textbf{解：}
+将三路合并后可写为
+\[
+s(t)=\sum_n c_n g(t-nT),
+\qquad
+c_n=a_n^{(1)}+2a_n^{(2)}+4a_n^{(3)}.
+\]
+由独立等概性知
+\[
+\mathbb{E}[c_n]=0,
+\qquad
+\mathbb{E}[c_n^2]=1^2+2^2+4^2=21.
+\]
+由于 $g(t)$ 是能量为 $1$、持续时间为 $T$ 的矩形脉冲，它的幅度为 $1/\sqrt{T}$，因此
+\[
+G(f)=\sqrt{T}\,\sinc(fT),
+\qquad
+|G(f)|^2=T\sinc^2(fT).
+\]
+故功率谱密度为
+\[
+P_s(f)=\frac{\mathbb{E}[c_n^2]}{T}|G(f)|^2
+=21\sinc^2(fT).
+\]
+
+串并变换后 3 路并行，因此符号速率为
+\[
+R_s=\frac{9600}{3}=3200\,\mathrm{Baud},
+\qquad
+T=\frac{1}{3200}\,\mathrm{s}.
+\]
+按教材中对 NRZ 主瓣带宽的定义，
+\[
+B_{\text{main}}=R_s=3200\,\mathrm{Hz}.
+\]
+
+\medskip
+\exercise{习题 5.14}
+\textbf{题目：}
+二进制信息序列经 MPAM 调制及升余弦滤波后在基带信道进行无码间干扰传输，信道带宽为 $0\sim 3000\,\mathrm{Hz}$。若升余弦滤波器的滚降系数 $\alpha$ 分别为 $0,0.5,1$：
+\begin{enumerate}
+\item 求无码间干扰基带传输的符号速率；
+\item 若 MPAM 的 $M=16$，求相应的二进制信息速率。
+\end{enumerate}
+
+\par\textbf{解：}
+升余弦系统占用带宽满足
+\[
+W=\frac{R_s}{2}(1+\alpha).
+\]
+题中 $W=3000\,\mathrm{Hz}$，故
+\[
+\frac{R_s}{2}(1+\alpha)=3000,
+\qquad
+R_s=\frac{6000}{1+\alpha}.
+\]
+
+于是：
+\[
+\alpha=0 \Rightarrow R_s=6\,\mathrm{kBaud},
+\]
+\[
+\alpha=0.5 \Rightarrow R_s=4\,\mathrm{kBaud},
+\]
+\[
+\alpha=1 \Rightarrow R_s=3\,\mathrm{kBaud}.
+\]
+
+若 $M=16$，则
+\[
+\log_2 16=4,
+\qquad
+R_b=4R_s.
+\]
+因此相应比特速率分别为
+\[
+24\,\mathrm{kbit/s},\qquad 16\,\mathrm{kbit/s},\qquad 12\,\mathrm{kbit/s}.
+\]
+
+\medskip
+\exercise{习题 5.15}
+\textbf{题目：}
+设计一 $M$ 进制 PAM 系统，在带宽 $W=2400\,\mathrm{Hz}$ 的理想基带信道进行无码间干扰传输。若系统输入比特速率为 $14.4\,\mathrm{kbit/s}$，画出最佳基带传输系统框图，并加以说明。
+
+\par\textbf{解：}
+对无 ISI 的 MPAM 基带系统，
+\[
+W=\frac{R_s}{2}(1+\alpha),
+\qquad
+R_s=\frac{R_b}{\log_2 M}.
+\]
+代入
+\[
+W=2400,\qquad R_b=14.4\,\mathrm{kbit/s}
+\]
+得
+\[
+2400=\frac{14.4\times 10^3}{2\log_2 M}(1+\alpha),
+\]
+即
+\[
+\log_2M=3(1+\alpha).
+\]
+由于
+\[
+0\le \alpha\le 1,
+\]
+故
+\[
+3\le \log_2M\le 6.
+\]
+理论上最小可取
+\[
+M=8
+\]
+并对应 $\alpha=0$。考虑实现性，通常取
+\[
+M=16,\qquad \alpha=\frac13.
+\]
+此时
+\[
+R_s=\frac{14.4}{4}=3.6\,\mathrm{kBaud}.
+\]
+
+系统框图可表述为：输入比特流 $\to$ 串并变换 $\to$ 16 电平映射 $\to$ 根升余弦发送滤波器 $\to$ 理想基带信道 $\to$ 根升余弦接收滤波器 $\to$ 抽样判决 $\to$ 并串变换。
+发送与接收两侧各采用一个根升余弦滤波器，级联后总体为滚降系数 $\alpha=1/3$ 的升余弦特性，从而实现无码间干扰传输。
+
+\medskip
+\exercise{习题 5.16}
+\textbf{题目：}
+设基带系统的总体传递函数是 $X(f)$，总体冲激响应是 $x(t)$。已知
+\[
+x(t)=\sinc\!\left(\frac{t}{T_s}\right)\cdot h(t),
+\]
+其中 $h(t)$ 的傅氏变换是
+\[
+H(f)=
+\begin{cases}
+\dfrac{\pi T_s}{2\alpha}\cos\!\left(\dfrac{\pi T_s f}{\alpha}\right),
+& |f|\le \dfrac{\alpha}{2T_s},\\[10pt]
+0,& |f|>\dfrac{\alpha}{2T_s},
+\end{cases}
+\qquad 0<\alpha\le 1.
+\]
+求 $x(t)$ 以及 $X(f)$ 的表达式。
+
+\par\textbf{解：}
+先由反变换求 $h(t)$。将余弦写成指数和：
+\[
+H(f)=\frac{\pi T_s}{4\alpha}
+\left(
+e^{j\pi T_sf/\alpha}+e^{-j\pi T_sf/\alpha}
+\right),
+\qquad |f|\le \frac{\alpha}{2T_s}.
+\]
+故
+\[
+h(t)=\frac{\pi}{4}\left[
+\sinc\!\left(\frac{\alpha t}{T_s}+\frac12\right)
++\sinc\!\left(\frac{\alpha t}{T_s}-\frac12\right)
+\right].
+\]
+将其化简可得
+\[
+h(t)=\frac{\cos(\pi\alpha t/T_s)}{1-(2\alpha t/T_s)^2}.
+\]
+因此
+\[
+x(t)=\sinc\!\left(\frac{t}{T_s}\right)\frac{\cos(\pi\alpha t/T_s)}{1-(2\alpha t/T_s)^2}.
+\]
+这正是升余弦脉冲的时域表达式。
+
+又因为
+\[
+\mathcal{F}\left\{\sinc\!\left(\frac{t}{T_s}\right)\right\}=T_s\rect(T_sf),
+\]
+所以
+\[
+X(f)=T_s\rect(T_sf)*H(f).
+\]
+卷积结果为标准升余弦频谱：
+\[
+X(f)=
+\begin{cases}
+T_s, & |f|\le \dfrac{1-\alpha}{2T_s},\\[8pt]
+\dfrac{T_s}{2}\left[
+1-\sin\!\left(\dfrac{\pi T_s}{\alpha}\left(|f|-\dfrac{1}{2T_s}\right)\right)
+\right], &
+\dfrac{1-\alpha}{2T_s}<|f|\le \dfrac{1+\alpha}{2T_s},\\[12pt]
+0, & |f|>\dfrac{1+\alpha}{2T_s}.
+\end{cases}
+\]
+
+\medskip
+\exercise{习题 5.17}
+\textbf{题目：}
+双极性 PAM 信号
+\[
+s(t)=\sum_{n=-\infty}^{\infty}a_ng(t-nT_b)
+\]
+通过 AWGN 信道传输。已知
+\[
+a_n\in\{\pm1\}
+\]
+独立等概，
+\[
+g(t)=
+\begin{cases}
+1,&0\le t\le T_b,\\
+0,&\text{其他},
+\end{cases}
+\]
+信道噪声 $n_w(t)$ 的单边功率谱密度为 $N_0$。
+
+\begin{enumerate}
+\item 画出用匹配滤波器进行最佳接收的框图；
+\item 求该系统的平均误比特率。
+\end{enumerate}
+
+\par\textbf{解：}
+最佳接收采用与 $g(t)$ 匹配的匹配滤波器：
+\[
+h(t)=g(T_b-t)=g(t),
+\]
+然后在最佳采样时刻抽样，再作判决。
+
+对应框图可表述为
+\[
+r(t)\rightarrow \text{匹配滤波器}\rightarrow \text{采样}\rightarrow \text{判决}.
+\]
+
+由于
+\[
+E_b=\int_0^{T_b}1^2\,dt=T_b,
+\]
+故判决统计量可写成
+\[
+y=\pm T_b+Z,
+\qquad
+Z\sim \mathcal{N}\!\left(0,\frac{N_0T_b}{2}\right).
+\]
+最佳门限为 $0$，因此平均误比特率为
+\[
+P_b=P(Z>T_b)
+=\frac12\operatorname{erfc}\!\left(\sqrt{\frac{T_b}{N_0}}\right).
+\]
+也可写成
+\[
+P_b=\frac12\operatorname{erfc}\!\left(\sqrt{\frac{E_b}{N_0}}\right).
+\]
+
+\medskip

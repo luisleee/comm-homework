@@ -1,0 +1,32 @@
+# LaTeX intermediate files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.fmt
+*.fot
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+*.xdv
+
+*.pdf
+
+# Common LaTeX build directories
+build/
+dist/
+out/
+
+# Editor and OS files
+.DS_Store
+.idea/
+.vscode/

@@ -1,0 +1,468 @@
+\section*{第 2 章}
+\addcontentsline{toc}{section}{第 2 章}
+
+\exercise{习题 2.1}
+\textbf{题目：}
+设 $m(t)$ 是功率为 $2\,\mathrm{W}$ 的实信号，求
+\[
+z(t)=m(t)+j\cdot 2m(t)
+\]
+的功率。
+
+\par\textbf{解：}
+复信号的功率等于实部功率与虚部功率之和，因此
+\[
+P_z=2+4\times 2=10\,\mathrm{W}.
+\]
+也可写成
+\[
+z(t)=m(t)(1+2j),
+\qquad
+\lvert z(t)\rvert^2=m^2(t)(1+2^2)=5m^2(t).
+\]
+按时间取平均，因 $\overline{m^2(t)}=2\,\mathrm{W}$，故
+\[
+\overline{\lvert z(t)\rvert^2}=5\times 2=10\,\mathrm{W}.
+\]
+
+\medskip
+\exercise{习题 2.2}
+\textbf{题目：}
+考虑 4 个信号
+\[
+w(t)=
+\begin{cases}
+1,&0\le t<2T,\\
+0,&\text{其他},
+\end{cases}
+\quad
+x(t)=
+\begin{cases}
+1,&0\le t<T,\\
+0,&\text{其他},
+\end{cases}
+\]
+\[
+y(t)=
+\begin{cases}
+1,&T\le t<2T,\\
+0,&\text{其他},
+\end{cases}
+\quad
+z(t)=
+\begin{cases}
+1,&0\le t<T,\\
+-\dfrac12,&T\le t<2T,\\
+0,&\text{其他},
+\end{cases}
+\]
+求它们两两之间的内积。
+
+\par\textbf{解：}
+\[
+\int_{-\infty}^{\infty}x(t)w(t)\,dt
+=\int_{-\infty}^{\infty}x(t)\,dt=T,
+\]
+\[
+\int_{-\infty}^{\infty}w(t)y(t)\,dt
+=\int_{-\infty}^{\infty}y(t)\,dt=T,
+\]
+\[
+\int_{-\infty}^{\infty}w(t)z(t)\,dt
+=\int_{-\infty}^{\infty}z(t)\,dt=\frac{T}{2},
+\]
+\[
+\int_{-\infty}^{\infty}x(t)y(t)\,dt=0,
+\qquad
+\int_{-\infty}^{\infty}x(t)z(t)\,dt
+=\int_{-\infty}^{\infty}x(t)\,dt=T,
+\]
+\[
+\int_{-\infty}^{\infty}y(t)z(t)\,dt
+=-\frac12\int_{-\infty}^{\infty}y(t)\,dt
+=-\frac{T}{2}.
+\]
+全部结果可写成矩阵
+\[
+\begin{pmatrix}
+2T&T&T&\dfrac{T}{2}\\[4pt]
+T&T&0&T\\[4pt]
+T&0&T&-\dfrac{T}{2}\\[4pt]
+\dfrac{T}{2}&T&-\dfrac{T}{2}&\dfrac{5T}{4}
+\end{pmatrix},
+\]
+其中第 $1,2,3,4$ 行及第 $1,2,3,4$ 列分别对应信号 $w,x,y,z$。
+
+\medskip
+\exercise{习题 2.3}
+\textbf{题目：}
+证明
+\[
+\delta(t-t_1)\delta(t-t_2)=\delta(t-t_1)\delta(t_1-t_2).
+\]
+
+\par\textbf{证明：}
+将冲激函数看成极限
+\[
+\delta(x)=\lim_{X\to 0}\left\{\frac{1}{X}\sinc\!\left(\frac{x}{X}\right)\right\}.
+\]
+则
+\[
+\delta(t-t_1)\delta(t-t_2)
+=\delta(t-t_1)\lim_{T_2\to 0}\left\{\frac{1}{T_2}\sinc\!\left(\frac{t-t_2}{T_2}\right)\right\}.
+\]
+由冲激函数的抽样性质，
+\[
+\delta(t-t_1)\cdot \frac{1}{T_2}\sinc\!\left(\frac{t-t_2}{T_2}\right)
+=\delta(t-t_1)\cdot \frac{1}{T_2}\sinc\!\left(\frac{t_1-t_2}{T_2}\right).
+\]
+因此
+\[
+\delta(t-t_1)\delta(t-t_2)
+=\delta(t-t_1)\lim_{T_2\to 0}\left\{\frac{1}{T_2}\sinc\!\left(\frac{t_1-t_2}{T_2}\right)\right\}
+=\delta(t-t_1)\delta(t_1-t_2).
+\]
+
+\medskip
+\exercise{习题 2.4}
+\textbf{题目：}
+求信号
+\[
+s(t)=Ae^{j(2\pi f_0 t+\varphi)}
+\]
+的傅氏变换与功率谱密度。
+
+\par\textbf{解：}
+写成
+\[
+s(t)=Ae^{j\varphi}e^{j2\pi f_0 t}.
+\]
+这是复幅度为 $Ae^{j\varphi}$、频率为 $f_0$ 的复单频信号，因此
+\[
+S(f)=Ae^{j\varphi}\delta(f-f_0).
+\]
+功率谱密度为
+\[
+P_s(f)=A^2\delta(f-f_0).
+\]
+
+\medskip
+\exercise{习题 2.5}
+\textbf{题目：}
+求信号
+\[
+g(t)=\rect\!\left(\frac{t}{T_s}\right)\cos\!\left(\frac{\pi t}{T_s}\right)
+\]
+的能量、傅氏变换、能量谱密度与主瓣带宽。
+
+\par\textbf{解：}
+其能量为
+\[
+E_g=\int_{-\infty}^{\infty}g^2(t)\,dt
+=\int_{-T_s/2}^{T_s/2}\cos^2\!\left(\frac{\pi t}{T_s}\right)\,dt
+=\frac{T_s}{2}.
+\]
+又有
+\[
+g(t)=\rect\!\left(\frac{t}{T_s}\right)\cdot \frac12
+\left(e^{j\pi t/T_s}+e^{-j\pi t/T_s}\right).
+\]
+由于
+\[
+\mathcal{F}\left\{\rect\!\left(\frac{t}{T_s}\right)\right\}
+=T_s\sinc(fT_s),
+\]
+乘以复指数相当于频移，因此
+\[
+G(f)=\frac{T_s}{2}\left\{
+\sinc\!\left[\left(f-\frac{1}{2T_s}\right)T_s\right]
+\;+\;
+\sinc\!\left[\left(f+\frac{1}{2T_s}\right)T_s\right]
+\right\}.
+\]
+化简得
+\[
+G(f)=\frac{2T_s\cos(\pi fT_s)}{\pi(1-4f^2T_s^2)}.
+\]
+能量谱密度为
+\[
+\lvert G(f)\rvert^2
+=\frac{4T_s^2\cos^2(\pi fT_s)}{\pi^2(1-4f^2T_s^2)^2}.
+\]
+能量谱密度的第一个零点不在 $f=\dfrac{1}{2T_s}$ 处，因为该点是可去奇点；第一个真正零点满足
+\[
+\pi fT_s=\frac{3\pi}{2},
+\]
+故
+\[
+f=\frac{3}{2T_s}.
+\]
+因此主瓣带宽为
+\[
+\frac{3}{2T_s}.
+\]
+
+\medskip
+\exercise{习题 2.6}
+\textbf{题目：}
+求信号
+\[
+\sinc\!\left(\frac{t}{T}\right)
+\]
+的能量。
+
+\par\textbf{解：}
+\[
+\mathcal{F}\left\{\sinc\!\left(\frac{t}{T}\right)\right\}
+=T\rect(fT).
+\]
+因此能量谱密度为
+\[
+\lvert S(f)\rvert^2=T^2\rect(fT).
+\]
+由帕塞瓦尔定理，能量为
+\[
+E=\int_{-\infty}^{\infty}\lvert S(f)\rvert^2\,df
+=T^2\cdot \frac{1}{T}=T.
+\]
+
+\medskip
+\exercise{习题 2.7}
+\textbf{题目：}
+证明：若一个系统满足线性、时不变这两个特性，则其输入为
+\[
+e^{j2\pi ft}
+\]
+时，输出为
+\[
+c\cdot e^{j2\pi ft},
+\]
+其中 $c$ 是复系数。
+
+\par\textbf{证明：}
+设输入 $e^{j2\pi ft}$ 时输出为 $y(t)$。由时不变性可知，对任意实数 $t_0$，输入
+\[
+e^{j2\pi f(t+t_0)}
+\]
+时，输出为 $y(t+t_0)$。另一方面，
+\[
+e^{j2\pi f(t+t_0)}=e^{j2\pi ft_0}e^{j2\pi ft},
+\]
+根据线性特性，对应输出应为
+\[
+e^{j2\pi ft_0}y(t).
+\]
+因此
+\[
+y(t+t_0)=e^{j2\pi ft_0}y(t).
+\]
+令 $t=0$，记 $c=y(0)$，则
+\[
+y(t_0)=ce^{j2\pi ft_0}.
+\]
+由于 $t_0$ 任意，故
+\[
+y(t)=ce^{j2\pi ft}.
+\]
+
+\medskip
+\exercise{习题 2.8}
+\textbf{题目：}
+将周期信号
+\[
+s(t)=\sum_{n=-\infty}^{\infty}\delta(t-nT)
+\]
+通过一个传递函数为 $H(f)$、冲激响应为 $h(t)$ 的滤波器，求输出信号 $y(t)$ 的傅氏变换、傅里叶级数展开式与功率谱密度。
+
+\par\textbf{解：}
+每个冲激通过系统后的输出为 $h(t-nT)$，因此
+\[
+y(t)=\sum_{n=-\infty}^{\infty}h(t-nT).
+\]
+输入信号的傅氏变换为
+\[
+S(f)=\frac{1}{T}\sum_{m=-\infty}^{\infty}\delta\!\left(f-\frac{m}{T}\right),
+\]
+故输出信号的傅氏变换为
+\[
+Y(f)=H(f)S(f)
+=\frac{1}{T}\sum_{m=-\infty}^{\infty}H\!\left(\frac{m}{T}\right)\delta\!\left(f-\frac{m}{T}\right).
+\]
+作傅氏反变换得
+\[
+y(t)=\frac{1}{T}\sum_{m=-\infty}^{\infty}H\!\left(\frac{m}{T}\right)e^{j2\pi mt/T},
+\]
+这就是输出信号的傅里叶级数展开式。
+
+各离散谱线的功率谱密度相加得
+\[
+P_y(f)=\frac{1}{T^2}\sum_{m=-\infty}^{\infty}
+\left|H\!\left(\frac{m}{T}\right)\right|^2
+\delta\!\left(f-\frac{m}{T}\right).
+\]
+因此输出功率为
+\[
+P_y=\int_{-\infty}^{\infty}P_y(f)\,df
+=\frac{1}{T^2}\sum_{m=-\infty}^{\infty}
+\left|H\!\left(\frac{m}{T}\right)\right|^2.
+\]
+
+\medskip
+\exercise{习题 2.9}
+\textbf{题目：}
+求矩形脉冲
+\[
+s(t)=\rect\!\left(\frac{t}{T}\right)
+\]
+的自相关函数。
+
+\par\textbf{解：}
+按定义
+\[
+R_s(\tau)=\int_{-\infty}^{\infty}s(t+\tau)s(t)\,dt
+=\int_{-\infty}^{\infty}\rect\!\left(\frac{t+\tau}{T}\right)\rect\!\left(\frac{t}{T}\right)\,dt.
+\]
+当 $\lvert\tau\rvert\ge T$ 时，两矩形不重叠，故 $R_s(\tau)=0$；当 $\lvert\tau\rvert<T$ 时，重叠区间宽度为 $T-\lvert\tau\rvert$，故
+\[
+R_s(\tau)=
+\begin{cases}
+T-\lvert\tau\rvert,&\lvert\tau\rvert\le T,\\
+0,&\text{其他}.
+\end{cases}
+\]
+也可由
+\[
+S(f)=T\cdot \sinc(fT),\qquad
+\lvert S(f)\rvert^2=T^2\sinc^2(fT)
+\]
+再作反变换得到同样结论。
+
+\medskip
+\exercise{习题 2.10}
+\textbf{题目：}
+能量为 $E_s$ 的信号 $s(t)$ 通过一个冲激响应为 $h(t)$ 的线性时不变系统后，在 $t=T$ 时刻采样得到采样值 $z$。若已知 $h(t)$ 的能量为 $E_h$，求能使 $z$ 最大的 $h(t)$。
+
+\par\textbf{解：}
+采样值为
+\[
+z=y(T)=\int_{-\infty}^{\infty}h(\tau)s(T-\tau)\,d\tau
+=\int_{-\infty}^{\infty}h(t)s(T-t)\,dt.
+\]
+这就是 $h(t)$ 与 $s(T-t)$ 的内积。由柯西-施瓦茨不等式，内积达到最大时应有
+\[
+h(t)=K\,s(T-t).
+\]
+又因题设要求
+\[
+E_h=\int_{-\infty}^{\infty}\lvert h(t)\rvert^2\,dt
+=K^2E_s,
+\]
+故
+\[
+K=\sqrt{\frac{E_h}{E_s}}.
+\]
+因此最优冲激响应为
+\[
+h(t)=\sqrt{\frac{E_h}{E_s}}\,s(T-t).
+\]
+
+\medskip
+\exercise{习题 2.11}
+\textbf{题目：}
+设有带通信号
+\[
+s(t)=a(t)\cos(2\pi f_c t)-b(t)\sin(2\pi f_c t),
+\]
+其中 $a(t),b(t)$ 是基带信号。求 $s(t)$ 以 $\cos(2\pi f_c t+\theta)$ 为参考载波的复包络。
+
+\par\textbf{解：}
+所求复包络 $s_L(t)$ 满足
+\[
+s(t)=\Re\left\{s_L(t)e^{j(2\pi f_c t+\theta)}\right\}.
+\]
+又因为
+\[
+s(t)=\Re\left\{[a(t)+jb(t)]e^{j2\pi f_c t}\right\}
+=\Re\left\{[a(t)+jb(t)]e^{-j\theta}e^{j(2\pi f_c t+\theta)}\right\},
+\]
+因此
+\[
+s_L(t)=[a(t)+jb(t)]e^{-j\theta}.
+\]
+
+\medskip
+\exercise{习题 2.12}
+\textbf{题目：}
+设有窄带信号
+\[
+x(t)=m(t)\cos(2\pi f_c t+\varphi),
+\]
+其中 $\varphi$ 是定值，$m(t)$ 是实基带信号，且其带宽远小于 $f_c$。求 $x(t)$ 的复包络 $x_L(t)$、希尔伯特变换 $\hat{x}(t)$，以及 $\hat{x}(t)$ 的复包络。
+
+\par\textbf{解：}
+将 $x(t)$ 写成
+\[
+x(t)=\Re\left\{m(t)e^{j(2\pi f_c t+\varphi)}\right\}
+=\Re\left\{m(t)e^{j\varphi}e^{j2\pi f_c t}\right\}.
+\]
+若默认参考载波为 $\cos(2\pi f_c t)$，则
+\[
+x_L(t)=m(t)e^{j\varphi}.
+\]
+由于
+\[
+m(t)e^{j(2\pi f_c t+\varphi)}
+\]
+只有正频率分量，所以它就是 $x(t)+j\hat{x}(t)$ 对应的解析信号，从而
+\[
+\hat{x}(t)=\Im\left\{m(t)e^{j(2\pi f_c t+\varphi)}\right\}
+=m(t)\sin(2\pi f_c t+\varphi).
+\]
+再写成
+\[
+\hat{x}(t)=\Re\left\{-jm(t)e^{j\varphi}e^{j2\pi f_c t}\right\},
+\]
+故 $\hat{x}(t)$ 的复包络为
+\[
+\hat{x}_L(t)=-jm(t)e^{j\varphi}=-jx_L(t).
+\]
+
+\medskip
+\exercise{习题 2.13}
+\textbf{题目：}
+设有窄带信号
+\[
+x(t)=I(t)\cos(2\pi f_c t+\varphi)-Q(t)\sin(2\pi f_c t+\varphi),
+\]
+其中 $I(t),Q(t)$ 是实基带信号，且其带宽远小于 $f_c$。
+
+求 $x(t)$ 的希尔伯特变换 $\hat{x}(t)$，并分别以 $\cos(2\pi f_c t+\varphi)$ 和 $\cos(2\pi f_c t)$ 为参考载波，求 $x(t),\hat{x}(t)$ 的复包络。
+
+\par\textbf{解：}
+由关系
+\[
+\Re\{(a+jb)e^{jc}\}=a\cos c-b\sin c
+\]
+可知
+\[
+x(t)=\Re\left\{[I(t)+jQ(t)]e^{j(2\pi f_c t+\varphi)}\right\}.
+\]
+对应解析信号的虚部即为希尔伯特变换，因此
+\[
+\hat{x}(t)=\Im\left\{[I(t)+jQ(t)]e^{j(2\pi f_c t+\varphi)}\right\}
+=Q(t)\cos(2\pi f_c t+\varphi)+I(t)\sin(2\pi f_c t+\varphi).
+\]
+
+以 $\cos(2\pi f_c t+\varphi)$ 为参考载波时，
+\[
+x_{L,\varphi}(t)=I(t)+jQ(t),
+\qquad
+\hat{x}_{L,\varphi}(t)=Q(t)-jI(t)=-j\,x_{L,\varphi}(t).
+\]
+
+以 $\cos(2\pi f_c t)$ 为参考载波时，
+\[
+x_L(t)=[I(t)+jQ(t)]e^{j\varphi},
+\qquad
+\hat{x}_L(t)=[Q(t)-jI(t)]e^{j\varphi}=-j\,x_L(t).
+\]

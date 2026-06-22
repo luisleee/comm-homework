@@ -1,0 +1,697 @@
+\section*{第 4 章}
+\addcontentsline{toc}{section}{第 4 章}
+
+\exercise{习题 4.1}
+\textbf{题目：}
+将模拟信号
+\[
+m(t)=\sin(2\pi f_m t)
+\]
+与载波
+\[
+c(t)=2\cos(2\pi f_c t)
+\]
+相乘得到双边带抑制载波信号
+\[
+s(t)=m(t)c(t),
+\]
+已知 $f_c=4f_m$。
+
+\begin{enumerate}
+\item 画出 $s(t)$ 的波形图；
+\item 求 $s(t)$ 的傅氏变换。
+\end{enumerate}
+
+\par\textbf{解：}
+\[
+s(t)=2\sin(2\pi f_m t)\cos(2\pi f_c t)
+=\sin 2\pi(f_c+f_m)t-\sin 2\pi(f_c-f_m)t.
+\]
+由 $f_c=4f_m$ 得
+\[
+s(t)=\sin(10\pi f_m t)-\sin(6\pi f_m t).
+\]
+因此它是频率分别为 $5f_m$ 和 $3f_m$ 的两个正弦波之差，据此即可画出时域波形。
+
+利用
+\[
+\mathcal{F}\{\sin(2\pi f_0 t)\}=\frac{1}{2j}\bigl[\delta(f-f_0)-\delta(f+f_0)\bigr],
+\]
+可得
+\begin{align*}
+S(f)
+&=\frac{1}{2j}\bigl[\delta(f-5f_m)-\delta(f+5f_m)\bigr]
+-\frac{1}{2j}\bigl[\delta(f-3f_m)-\delta(f+3f_m)\bigr] \\
+&=\frac{1}{2j}\bigl[\delta(f-5f_m)-\delta(f-3f_m)+\delta(f+3f_m)-\delta(f+5f_m)\bigr].
+\end{align*}
+故频谱仅在 $f=\pm 3f_m,\pm 5f_m$ 处有谱线。
+
+\medskip
+\exercise{习题 4.2}
+\textbf{题目：}
+设有 AM 信号
+\[
+s(t)=2\cos(2000\pi t)+8\cos(2200\pi t)+2\cos(2400\pi t).
+\]
+求：
+\begin{enumerate}
+\item $s(t)$ 的傅氏变换；
+\item $s(t)$ 的复包络 $s_L(t)$；
+\item 该 AM 信号的调幅系数与调制效率。
+\end{enumerate}
+
+\par\textbf{解：}
+将各项改写成标准形式：
+\[
+2\cos(2000\pi t)=2\cos(2\pi\cdot 1000\,t),\quad
+8\cos(2200\pi t)=8\cos(2\pi\cdot 1100\,t),
+\]
+\[
+2\cos(2400\pi t)=2\cos(2\pi\cdot 1200\,t).
+\]
+故其傅氏变换为
+\[
+S(f)=\delta(f-1000)+4\delta(f-1100)+\delta(f-1200)
++\delta(f+1000)+4\delta(f+1100)+\delta(f+1200).
+\]
+
+以 $f_c=1100\,\mathrm{Hz}$ 为载频，则
+\[
+s(t)=\Re\{s_L(t)e^{j2\pi f_ct}\},
+\]
+并且
+\[
+s_L(t)=8+2e^{j200\pi t}+2e^{-j200\pi t}=8+4\cos(200\pi t).
+\]
+因此这是标准调幅信号
+\[
+s(t)=[8+4\cos(200\pi t)]\cos(2200\pi t).
+\]
+调幅系数为
+\[
+a=\frac{4}{8}=0.5.
+\]
+
+载波功率为
+\[
+P_c=\frac{8^2}{2}=32,
+\]
+两个边带的功率分别为
+\[
+P_{USB}=P_{LSB}=\frac{2^2}{2}=2,
+\]
+故总边带功率
+\[
+P_{SB}=4,
+\qquad
+P_T=P_c+P_{SB}=36.
+\]
+因此调制效率为
+\[
+\eta=\frac{P_{SB}}{P_T}=\frac{4}{36}=\frac{1}{9}.
+\]
+
+\medskip
+\exercise{习题 4.3}
+\textbf{题目：}
+设有 AM 信号
+\[
+s(t)=\Re\left\{[A+m(t)]e^{j\left(2\pi f_c t+\frac{\pi}{2}\right)}\right\},
+\]
+已知基带信号 $m(t)$ 的最大幅度为 $A/2$，功率为 $A^2/8$。求调幅系数、调制效率，并求相干解调器载波为
+\[
+2\cos(2\pi f_c t)
+\]
+时的解调输出。
+
+\par\textbf{解：}
+由
+\[
+e^{j\pi/2}=j
+\]
+可写成
+\[
+s(t)=\Re\{j[A+m(t)]e^{j2\pi f_ct}\}= -[A+m(t)]\sin(2\pi f_ct).
+\]
+因此调幅系数为
+\[
+a=\frac{\max|m(t)|}{A}=\frac{A/2}{A}=\frac12.
+\]
+
+载波分量功率为
+\[
+P_c=\frac{A^2}{2}.
+\]
+边带对应的 DSB-SC 分量为 $m(t)\sin(2\pi f_ct)$，其功率为
+\[
+P_{SB}=\frac{1}{2}P_m=\frac12\cdot \frac{A^2}{8}=\frac{A^2}{16}.
+\]
+所以总功率为
+\[
+P_T=P_c+P_{SB}=\frac{A^2}{2}+\frac{A^2}{16}=\frac{9A^2}{16},
+\]
+调制效率为
+\[
+\eta=\frac{P_{SB}}{P_T}=\frac{A^2/16}{9A^2/16}=\frac19.
+\]
+
+由于该信号相对于参考载波 $\cos(2\pi f_ct)$ 完全处于正交支路，相干解调时乘以 $2\cos(2\pi f_ct)$ 后经理想低通滤波，低频项为零，因此解调输出为
+\[
+y(t)=0.
+\]
+
+\medskip
+\exercise{习题 4.4}
+\textbf{题目：}
+设有已调信号
+\[
+s(t)=2\sin(2\pi f_m t)\cos(2\pi f_c t)+2\cos(2\pi f_m t)\sin(2\pi f_c t),
+\]
+其中基带调制信号为
+\[
+x(t)=\sin(2\pi f_m t),
+\]
+且 $f_c\gg f_m$。
+
+\begin{enumerate}
+\item 求 $s(t)$ 的傅氏变换；
+\item 判断该已调信号的调制方式。
+\end{enumerate}
+
+\par\textbf{解：}
+由三角恒等式
+\[
+\sin\alpha\cos\beta+\cos\alpha\sin\beta=\sin(\alpha+\beta),
+\]
+得
+\[
+s(t)=2\sin 2\pi(f_c+f_m)t.
+\]
+因此
+\[
+S(f)=\frac{1}{j}\bigl[\delta(f-f_c-f_m)-\delta(f+f_c+f_m)\bigr].
+\]
+
+也可从复包络看：
+\[
+s_L(t)=2\sin(2\pi f_m t)-j2\cos(2\pi f_m t)
+=-2je^{j2\pi f_m t}.
+\]
+复包络只有正频率分量，所以这是单边带调制，且仅保留上边带，因此为
+\[
+\text{上单边带（USB）信号。}
+\]
+
+\medskip
+\exercise{习题 4.5}
+\textbf{题目：}
+已知某下单边带 SSB 信号 $s(t)$ 的功率为 $5\,\mathrm{W}$，载波频率为 $800\,\mathrm{kHz}$，基带调制信号为
+\[
+m(t)=\cos(200\pi t)+2\sin(2000\pi t).
+\]
+求：
+\begin{enumerate}
+\item $m(t)$ 的希尔伯特变换 $\hat m(t)$；
+\item 已调信号 $s(t)$ 的时域表达式；
+\item 其单边功率谱密度。
+\end{enumerate}
+
+\par\textbf{解：}
+因为
+\[
+\mathcal{H}\{\cos(2\pi f t)\}=\sin(2\pi f t),\qquad
+\mathcal{H}\{\sin(2\pi f t)\}=-\cos(2\pi f t),
+\]
+故
+\[
+\hat m(t)=\sin(200\pi t)-2\cos(2000\pi t).
+\]
+
+又
+\[
+m(t)=\Re\left\{e^{j200\pi t}-2je^{j2000\pi t}\right\},
+\]
+故其解析信号为
+\[
+m_a(t)=m(t)+j\hat m(t)=e^{j200\pi t}-2je^{j2000\pi t}.
+\]
+下单边带信号的复包络可写为
+\[
+s_L(t)=A\,m_a^*(t)=A\left(e^{-j200\pi t}+2je^{-j2000\pi t}\right).
+\]
+于是
+\[
+s(t)=\Re\{s_L(t)e^{j2\pi f_ct}\}
+=\Re\left\{A\left(e^{-j200\pi t}+2je^{-j2000\pi t}\right)e^{j2\pi f_ct}\right\}.
+\]
+展开得
+\[
+s(t)=A\cos 2\pi(f_c-100)t-2A\sin 2\pi(f_c-1000)t.
+\]
+
+确定系数 $A$。复包络功率为
+\[
+P_{s_L}=A^2(1^2+2^2)=5A^2.
+\]
+带通信号功率为复包络功率的一半，所以
+\[
+P_s=\frac{P_{s_L}}{2}=\frac{5A^2}{2}.
+\]
+由 $P_s=5\,\mathrm{W}$ 得
+\[
+\frac{5A^2}{2}=5,\qquad A=\sqrt2.
+\]
+故
+\[
+s(t)=\sqrt2\cos 2\pi(f_c-100)t-2\sqrt2\sin 2\pi(f_c-1000)t.
+\]
+代入 $f_c=800\,\mathrm{kHz}$：
+\[
+s(t)=\sqrt2\cos(1599800\pi t)-2\sqrt2\sin(1598000\pi t).
+\]
+
+该信号只含两个正频率分量：
+\[
+799.9\,\mathrm{kHz},\qquad 799\,\mathrm{kHz}.
+\]
+对应功率分别为
+\[
+1\,\mathrm{W},\qquad 4\,\mathrm{W}.
+\]
+因此其单边功率谱密度可写为
+\[
+P_s^{(+)}(f)=\delta\bigl(f-799.9\times 10^3\bigr)+4\delta\bigl(f-799\times 10^3\bigr).
+\]
+
+\medskip
+\exercise{习题 4.6}
+\textbf{题目：}
+某调制器的输出信号为
+\[
+s(t)=m_1(t)\cos(2\pi f_ct-\varphi)-m_2(t)\sin(2\pi f_ct-\varphi)
+=\Re\{s_L(t)e^{j2\pi f_ct}\},
+\]
+其中基带信号 $m_1(t)$ 和 $m_2(t)$ 的带宽均为 $W$，且 $W\ll f_c$，$s_L(t)$ 是以 $\cos(2\pi f_ct)$ 为参考载波时的复包络。
+
+\begin{enumerate}
+\item 求 $\Re\{s_L(t)\}$；
+\item 当 $m_1(t)$ 和 $m_2(t)$ 满足何种关系时，$s(t)$ 的频谱在 $|f|<f_c$ 范围内为 $0$？
+\end{enumerate}
+
+\par\textbf{解：}
+先将信号写成复包络形式：
+\[
+s(t)=\Re\left\{[m_1(t)+jm_2(t)]e^{-j\varphi}e^{j2\pi f_ct}\right\}.
+\]
+因此
+\[
+s_L(t)=[m_1(t)+jm_2(t)]e^{-j\varphi}.
+\]
+它的实部为
+\[
+\Re\{s_L(t)\}=m_1(t)\cos\varphi+m_2(t)\sin\varphi.
+\]
+
+若要求 $s(t)$ 在 $|f|<f_c$ 内没有频谱，则正频率部分在区间 $0<f<f_c$ 内应为零。对带通信号而言，这等价于复包络 $s_L(t)$ 只含正频率分量，即 $s_L(t)$ 必须是解析信号。于是
+\[
+m_2(t)=\hat m_1(t),
+\]
+也就是说，$m_2(t)$ 必须是 $m_1(t)$ 的希尔伯特变换。
+
+\medskip
+\exercise{习题 4.7}
+\textbf{题目：}
+某调频信号的表达式为
+\[
+s(t)=2\cos(400000\pi t+2\sin100\pi t).
+\]
+求其平均功率、调制指数和近似带宽。
+
+\par\textbf{解：}
+写成标准 FM 形式：
+\[
+s(t)=2\cos\bigl(2\pi f_ct+\beta\sin 2\pi f_mt\bigr),
+\]
+由题式可知
+\[
+f_c=200\,\mathrm{kHz},\qquad f_m=50\,\mathrm{Hz},\qquad \beta=2.
+\]
+
+平均功率只由载波幅度决定：
+\[
+P=\frac{2^2}{2}=2\,\mathrm{W}.
+\]
+最大频偏为
+\[
+\Delta f=\beta f_m=2\times 50=100\,\mathrm{Hz}.
+\]
+调制指数为
+\[
+\beta=\frac{\Delta f}{f_m}=2.
+\]
+按 Carson 公式，近似带宽为
+\[
+B\approx 2(\Delta f+f_m)=2(100+50)=300\,\mathrm{Hz}.
+\]
+
+\medskip
+\exercise{习题 4.8}
+\textbf{题目：}
+设有角度调制信号
+\[
+s(t)=100\cos(2\pi f_ct+4\sin2\pi f_mt),
+\]
+其中 $f_m=1000\,\mathrm{Hz}$。
+
+\begin{enumerate}
+\item 求 $s(t)$ 的近似带宽；
+\item 假设 $s(t)$ 是由某调频器产生的 FM 信号，已知输入信号最大幅度为 $1$，求频率偏移常数 $K_f$。若保持输入幅度不变，但将输入频率加倍，求新的已调信号表达式及近似带宽；
+\item 假设 $s(t)$ 是由某调相器产生的 PM 信号，已知输入信号最大幅度为 $1$，求相位偏移常数 $K_p$。若保持输入幅度不变，但将输入频率加倍，求新的已调信号表达式及近似带宽。
+\end{enumerate}
+
+\par\textbf{解：}
+原信号的瞬时相位为
+\[
+\phi(t)=4\sin(2\pi f_m t).
+\]
+其瞬时频偏满足
+\[
+\Delta f(t)=\frac{1}{2\pi}\frac{d\phi(t)}{dt}=4f_m\cos(2\pi f_mt).
+\]
+因此最大频偏为
+\[
+\Delta f_{\max}=4f_m=4000\,\mathrm{Hz}.
+\]
+
+故原信号的近似带宽为
+\[
+B\approx 2(\Delta f_{\max}+f_m)=2(4000+1000)=10000\,\mathrm{Hz}=10\,\mathrm{kHz}.
+\]
+
+若把它看成 FM 信号，设输入为
+\[
+m(t)=\cos(2\pi f_mt),
+\]
+则
+\[
+s(t)=100\cos\left(2\pi f_ct+2\pi K_f\int m(t)\,dt\right).
+\]
+而
+\[
+2\pi K_f\int \cos(2\pi f_mt)\,dt=\frac{K_f}{f_m}\sin(2\pi f_mt).
+\]
+由题式系数 $4$ 可知
+\[
+\frac{K_f}{f_m}=4,
+\qquad
+K_f=4f_m=4000\,\mathrm{Hz/V}.
+\]
+当输入频率加倍为 $2000\,\mathrm{Hz}$，幅度不变时，
+\[
+m_1(t)=\cos(4000\pi t).
+\]
+此时最大频偏仍为
+\[
+\Delta f_{\max}=K_f\times 1=4000\,\mathrm{Hz},
+\]
+但调制指数变为
+\[
+\beta_1=\frac{\Delta f_{\max}}{2000}=2.
+\]
+新的已调信号为
+\[
+s_1(t)=100\cos\bigl(2\pi f_ct+2\sin(4000\pi t)\bigr),
+\]
+近似带宽为
+\[
+B_1\approx 2(4000+2000)=12000\,\mathrm{Hz}.
+\]
+
+若把它看成 PM 信号，设输入为
+\[
+m(t)=\sin(2\pi f_mt),
+\]
+则相位偏移项为
+\[
+K_pm(t)=4\sin(2\pi f_mt),
+\]
+所以
+\[
+K_p=4\,\mathrm{rad/V}.
+\]
+当输入频率加倍为 $2000\,\mathrm{Hz}$ 时，
+\[
+m_2(t)=\sin(4000\pi t).
+\]
+新的已调信号为
+\[
+s_2(t)=100\cos\bigl(2\pi f_ct+4\sin(4000\pi t)\bigr).
+\]
+其最大频偏为
+\[
+\Delta f_{\max}=K_pf_m'=4\times 2000=8000\,\mathrm{Hz},
+\]
+故近似带宽为
+\[
+B_2\approx 2(8000+2000)=20000\,\mathrm{Hz}.
+\]
+
+\medskip
+\exercise{习题 4.9}
+\textbf{题目：}
+通过 AWGN 信道发送
+\[
+s(t)=m_1(t)\cos(2\pi f_ct)-m_2(t)\sin(2\pi f_ct),
+\]
+其中 $m_1(t)$、$m_2(t)$ 是频谱分布在 $0\sim 3400\,\mathrm{Hz}$ 内的两个话音信号，功率都为 $1\,\mathrm{W}$。
+
+\begin{enumerate}
+\item 接收端如何解出 $m_1(t)$、$m_2(t)$？
+\item 若信道噪声功率谱密度为 $N_0/2$，求解调输出信噪比。
+\end{enumerate}
+
+\par\textbf{解：}
+这是标准正交调制信号，$m_1(t)$ 和 $m_2(t)$ 分别是同相分量和正交分量。接收端采用 I/Q 正交相干解调：
+\begin{enumerate}
+\item 先用中心频率为 $f_c$、带宽为 $6800\,\mathrm{Hz}$ 的理想带通滤波器提取信号；
+\item 一路乘以 $2\cos(2\pi f_ct)$ 后经截止频率 $3400\,\mathrm{Hz}$ 的低通滤波器，输出 $m_1(t)$；
+\item 另一路乘以 $2\sin(2\pi f_ct)$ 后经截止频率 $3400\,\mathrm{Hz}$ 的低通滤波器，输出 $m_2(t)$。
+\end{enumerate}
+
+带通滤波器输出噪声记为 $n(t)$，则其功率为
+\[
+P_n=N_0B=6800N_0.
+\]
+其同相分量 $n_c(t)$ 与正交分量 $n_s(t)$ 的功率也都为
+\[
+6800N_0.
+\]
+因此 I 路和 Q 路输出分别为
+\[
+m_1(t)+n_c(t),\qquad m_2(t)+n_s(t).
+\]
+两路中有用信号功率都为 $1$，噪声功率都为 $6800N_0$，于是两路解调输出信噪比相同，均为
+\[
+\left(\frac{S}{N}\right)_o=\frac{1}{6800N_0}.
+\]
+
+\medskip
+\exercise{习题 4.10}
+\textbf{题目：}
+题 4.9 图中，基带信号
+\[
+m(t)=\cos(180\pi t),
+\]
+载频 $f_c=1\,\mathrm{kHz}$，白高斯噪声 $n_w(t)$ 的单边功率谱密度为
+\[
+N_0=10^{-5}\,\mathrm{W/Hz},
+\]
+理想带通滤波器 BPF 的通频带是 $1\sim 1.1\,\mathrm{kHz}$，理想低通滤波器 LPF 的截止频率是 $100\,\mathrm{Hz}$。
+
+\begin{enumerate}
+\item 写出希尔伯特变换 $\hat m(t)$ 的表达式，以及已调信号 $s(t)$ 的表达式；
+\item 求 $s(t)$ 的傅氏变换；
+\item 求 BPF 输出端与 LPF 输出端的信噪比。
+\end{enumerate}
+
+\par\textbf{解：}
+由
+\[
+m(t)=\cos(180\pi t)=\cos(2\pi\cdot 90\,t),
+\]
+可得其希尔伯特变换为
+\[
+\hat m(t)=\sin(180\pi t).
+\]
+因此复包络为
+\[
+s_L(t)=m(t)+j\hat m(t)=e^{j180\pi t}.
+\]
+已调信号为
+\[
+s(t)=\Re\{s_L(t)e^{j2\pi f_ct}\}
+=\Re\left\{e^{j180\pi t}e^{j2000\pi t}\right\}
+=\cos(2180\pi t).
+\]
+
+所以其傅氏变换为
+\[
+S(f)=\frac12\delta(f-1090)+\frac12\delta(f+1090).
+\]
+
+BPF 通过后，有用信号功率为
+\[
+P_s=\frac{1^2}{2}=0.5\,\mathrm{W}.
+\]
+BPF 带宽为
+\[
+B=1.1\,\mathrm{kHz}-1.0\,\mathrm{kHz}=100\,\mathrm{Hz},
+\]
+故输出噪声功率为
+\[
+P_n=N_0B=10^{-5}\times 100=0.001\,\mathrm{W}.
+\]
+因此 BPF 输出端信噪比为
+\[
+\left(\frac{S}{N}\right)_{\mathrm{BPF}}=\frac{0.5}{0.001}=500.
+\]
+
+经乘以 $2\cos(2\pi f_ct)$ 并低通滤波后，输出为
+\[
+y(t)=m(t)+n_c(t).
+\]
+其中信号功率仍为
+\[
+P_m=0.5\,\mathrm{W},
+\]
+低通输出噪声功率仍为
+\[
+0.001\,\mathrm{W}.
+\]
+所以 LPF 输出端信噪比为
+\[
+\left(\frac{S}{N}\right)_{\mathrm{LPF}}=\frac{0.5}{0.001}=500.
+\]
+
+\medskip
+\exercise{习题 4.11}
+\textbf{题目：}
+已知某 SSB 系统中模拟基带信号 $m(t)$ 的带宽是 $5\,\mathrm{kHz}$，发端发送的已调信号功率是 $P_T$，接收端收到的有用信号功率 $P_R$ 比发送功率低 $60\,\mathrm{dB}$，接收信号中叠加了白高斯噪声，其单边功率谱密度为
+\[
+N_0=10^{-13}\,\mathrm{W/Hz}.
+\]
+若要求解调输出信噪比不低于 $30\,\mathrm{dB}$，求发送功率 $P_T$。
+
+\par\textbf{解：}
+接收有用信号功率比发送功率低 $60\,\mathrm{dB}$，故
+\[
+P_R=10^{-6}P_T.
+\]
+SSB 系统中，带通滤波器带宽等于基带带宽，因此输入解调器的噪声功率为
+\[
+P_n=N_0W=10^{-13}\times 5\times 10^3=5\times 10^{-10}\,\mathrm{W}.
+\]
+故解调输入信噪比为
+\[
+\left(\frac{S}{N}\right)_i=\frac{P_R}{P_n}
+=\frac{10^{-6}P_T}{5\times 10^{-10}}
+=2000P_T.
+\]
+SSB 相干解调时，输出信噪比等于输入信噪比，所以要求
+\[
+2000P_T\ge 10^{30/10}=1000.
+\]
+从而
+\[
+P_T\ge 0.5\,\mathrm{W}.
+\]
+
+\medskip
+\exercise{习题 4.12}
+\textbf{题目：}
+设 DSB-SC 信号
+\[
+s(t)=m(t)\cos(2\pi f_ct)
+\]
+的功率谱密度如图所示。$s(t)$ 在传输中受到单边功率谱密度为 $N_0$ 的加性白高斯噪声干扰，接收端解调框图中 BPF 的中心频率是 $f_c$、带宽是 $2W$，LPF 的截止频率是 $W$。求解调输出信噪比。
+
+\par\textbf{解：}
+由题图中功率谱密度的面积可得收到的已调信号功率。每一侧谱瓣的宽度为 $2W$，高度从边缘的 $1$ 线性降到中心的 $1/2$，因此单侧面积为
+\[
+2W\times \frac{1+1/2}{2}=\frac{3W}{2}.
+\]
+双边总功率为
+\[
+P_R=2\times \frac{3W}{2}=3W.
+\]
+
+对 DSB-SC 理想相干解调器，输出信噪比为
+\[
+\left(\frac{S}{N}\right)_o=\frac{P_R}{N_0W}.
+\]
+代入上式得
+\[
+\left(\frac{S}{N}\right)_o=\frac{3W}{N_0W}=\frac{3}{N_0}.
+\]
+
+\medskip
+\exercise{习题 4.13}
+\textbf{题目：}
+设模拟基带信号 $m(t)$ 的带宽为 $10\,\mathrm{kHz}$，峰均比为 $8$，发射功率为 $100\,\mathrm{W}$，发送端到接收端的路径损耗为 $50\,\mathrm{dB}$，接收端热噪声的单边功率谱密度为
+\[
+N_0=10^{-9}\,\mathrm{W/Hz}.
+\]
+分别求调幅系数为 $0.8$ 的 AM 系统以及调频指数为 $8$ 的 FM 系统的解调输出信噪比。
+
+\par\textbf{解：}
+路径损耗为 $50\,\mathrm{dB}$，因此接收端的已调信号功率为
+\[
+P_R=100\times 10^{-5}=10^{-3}\,\mathrm{W}.
+\]
+基带带宽
+\[
+W=10\,\mathrm{kHz}=10^4\,\mathrm{Hz},
+\]
+于是
+\[
+\frac{P_R}{N_0W}=\frac{10^{-3}}{10^{-9}\times 10^4}=100.
+\]
+
+对 AM 系统，根据教材中的公式，
+\[
+\left(\frac{S}{N}\right)_{o,\mathrm{AM}}=\eta\frac{P_R}{N_0W},
+\]
+其中调制效率
+\[
+\eta=\frac{1}{1+C_m/a^2}.
+\]
+已知峰均比 $C_m=8$，调幅系数 $a=0.8$，所以
+\[
+\eta=\frac{1}{1+8/0.8^2}=\frac{1}{1+12.5}=\frac{2}{27}.
+\]
+故
+\[
+\left(\frac{S}{N}\right)_{o,\mathrm{AM}}=\frac{2}{27}\times 100=\frac{200}{27}\approx 7.41,
+\]
+折合分贝为
+\[
+10\log_{10}\frac{200}{27}\approx 8.70\,\mathrm{dB}.
+\]
+
+对 FM 系统，
+\[
+\left(\frac{S}{N}\right)_{o,\mathrm{FM}}
+=\frac{3\beta^2}{C_m}\frac{P_R}{N_0W}.
+\]
+代入 $\beta=8$、$C_m=8$ 得
+\[
+\left(\frac{S}{N}\right)_{o,\mathrm{FM}}
+=\frac{3\times 8^2}{8}\times 100
+=2400.
+\]
+折合分贝为
+\[
+10\log_{10}(2400)\approx 33.8\,\mathrm{dB}.
+\]
+
+\medskip

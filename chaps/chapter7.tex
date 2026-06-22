@@ -1,0 +1,673 @@
+\section*{第 7 章}
+\addcontentsline{toc}{section}{第 7 章}
+
+\exercise{习题 7.1}
+\textbf{题目：}
+设一信源由 6 个不同的独立符号组成：
+\[
+x_1,x_2,x_3,x_4,x_5,x_6
+\]
+其概率分别为
+\[
+\frac12,\ \frac14,\ \frac1{32},\ \frac18,\ \frac1{32},\ \frac1{16}.
+\]
+求：
+\begin{enumerate}
+\item 信源符号熵 $H(X)$；
+\item 若信源每秒发送 $1000$ 个符号，求每秒传送的信息量；
+\item 若各符号等概出现，求信源最大熵 $H_{\max}(X)$。
+\end{enumerate}
+
+\par\textbf{解：}
+\[
+H(X)=-\sum_{i=1}^6 p_i\log_2 p_i.
+\]
+代入各概率，
+\[
+H(X)=\frac12\cdot 1+\frac14\cdot 2+\frac1{32}\cdot 5+\frac18\cdot 3+\frac1{32}\cdot 5+\frac1{16}\cdot 4
+=\frac{31}{16}=1.9375\ \text{bit}.
+\]
+
+若每秒发送 $1000$ 个符号，则信息量速率为
+\[
+R=1000\times H(X)=1937.5\ \text{bit/s}.
+\]
+
+若 6 个符号等概出现，则最大熵为
+\[
+H_{\max}(X)=\log_2 6\approx 2.585\ \text{bit}.
+\]
+
+\medskip
+\exercise{习题 7.2}
+\textbf{题目：}
+已知两个二进制随机变量 $X,Y$ 的联合分布满足
+\[
+P(X=0,Y=0)=P(X=0,Y=1)=P(X=1,Y=1)=\frac13,
+\]
+其余联合概率为 0。求
+\[
+H(X),\ H(Y),\ H(X|Y),\ H(Y|X),\ H(X,Y).
+\]
+
+\par\textbf{解：}
+联合熵为
+\[
+H(X,Y)=-3\cdot \frac13\log_2\frac13=\log_2 3\approx 1.585\ \text{bit}.
+\]
+
+边缘分布为
+\[
+P(X=0)=\frac23,\qquad P(X=1)=\frac13,
+\]
+\[
+P(Y=0)=\frac13,\qquad P(Y=1)=\frac23.
+\]
+因此
+\[
+H(X)=H(Y)=-\frac23\log_2\frac23-\frac13\log_2\frac13\approx 0.918\ \text{bit}.
+\]
+
+条件熵满足
+\[
+H(X|Y)=H(X,Y)-H(Y)=\log_2 3-0.918\approx 0.667\ \text{bit},
+\]
+\[
+H(Y|X)=H(X,Y)-H(X)\approx 0.667\ \text{bit}.
+\]
+
+\medskip
+\exercise{习题 7.3}
+\textbf{题目：}
+已知联合事件概率表如下：
+\[
+\begin{array}{c|ccc}
+P(A_i,B_j) & B_1 & B_2 & B_3\\
+\hline
+A_1 & 0.10 & 0.08 & 0.13\\
+A_2 & 0.05 & 0.03 & 0.09\\
+A_3 & 0.05 & 0.12 & 0.14\\
+A_4 & 0.11 & 0.04 & 0.06
+\end{array}
+\]
+求：
+\begin{enumerate}
+\item $P(A_i)$ 与 $P(B_j)$；
+\item $H(A),H(B),H(A,B)$；
+\item 互信息 $I(A;B)$。
+\end{enumerate}
+
+\par\textbf{解：}
+各行和各列求和得
+\[
+P(A_1)=0.31,\quad P(A_2)=0.17,\quad P(A_3)=0.31,\quad P(A_4)=0.21,
+\]
+\[
+P(B_1)=0.31,\quad P(B_2)=0.27,\quad P(B_3)=0.42.
+\]
+
+联合熵为
+\[
+H(A,B)=-\sum_{i,j}P(A_i,B_j)\log_2 P(A_i,B_j)\approx 3.447\ \text{bit}.
+\]
+
+边缘熵分别为
+\[
+H(A)=-\sum_i P(A_i)\log_2 P(A_i)\approx 1.955\ \text{bit},
+\]
+\[
+H(B)=-\sum_j P(B_j)\log_2 P(B_j)\approx 1.560\ \text{bit}.
+\]
+
+互信息
+\[
+I(A;B)=H(A)+H(B)-H(A,B)\approx 1.955+1.560-3.447=0.068\ \text{bit}.
+\]
+
+\medskip
+\exercise{习题 7.4}
+\textbf{题目：}
+证明：
+\[
+I(X;Y)=H(X)-H(X|Y)=H(Y)-H(Y|X)=H(X)+H(Y)-H(X,Y).
+\]
+
+\par\textbf{证明：}
+由条件熵定义
+\[
+H(X|Y)=H(X,Y)-H(Y),
+\]
+因此
+\[
+H(X)-H(X|Y)=H(X)-[H(X,Y)-H(Y)]=H(X)+H(Y)-H(X,Y).
+\]
+同理
+\[
+H(Y)-H(Y|X)=H(Y)-[H(X,Y)-H(X)]=H(X)+H(Y)-H(X,Y).
+\]
+故三式相等，即
+\[
+I(X;Y)=H(X)-H(X|Y)=H(Y)-H(Y|X)=H(X)+H(Y)-H(X,Y).
+\]
+
+\medskip
+\exercise{习题 7.5}
+\textbf{题目：}
+已知一离散无记忆信源
+\[
+\{x_1,x_2,x_3\},
+\qquad
+\{p_1,p_2,p_3\}=\{0.45,0.35,0.20\}.
+\]
+求：
+\begin{enumerate}
+\item 信源熵 $H(X)$；
+\item 进行哈夫曼编码，并求编码效率。
+\end{enumerate}
+
+\par\textbf{解：}
+信源熵为
+\[
+H(X)=-0.45\log_2 0.45-0.35\log_2 0.35-0.20\log_2 0.20\approx 1.51\ \text{bit}.
+\]
+
+一种哈夫曼编码可取
+\[
+x_1\to 1,\qquad x_2\to 01,\qquad x_3\to 00.
+\]
+平均码长为
+\[
+\bar L=0.45\times 1+(0.35+0.20)\times 2=1.55\ \text{bit}.
+\]
+编码效率为
+\[
+\eta=\frac{H(X)}{\bar L}=\frac{1.51}{1.55}\approx 97.4\%.
+\]
+
+\medskip
+\exercise{习题 7.6}
+\textbf{题目：}
+设有一离散无记忆信源
+\[
+\{x_1,x_2,x_3,x_4,x_5,x_6,x_7\},
+\]
+概率分别为
+\[
+0.20,\ 0.19,\ 0.18,\ 0.17,\ 0.15,\ 0.10,\ 0.01.
+\]
+求：
+\begin{enumerate}
+\item 信源符号熵 $H(X)$；
+\item 哈夫曼编码及编码效率。
+\end{enumerate}
+
+\par\textbf{解：}
+熵为
+\[
+\begin{aligned}
+H(X)=&-0.20\log_2 0.20-0.19\log_2 0.19-0.18\log_2 0.18 \\
+&-0.17\log_2 0.17-0.15\log_2 0.15-0.10\log_2 0.10-0.01\log_2 0.01
+\approx 2.61\ \text{bit}.
+\end{aligned}
+\]
+
+可取一组哈夫曼编码为
+\[
+x_1\to 11,\quad
+x_2\to 10,\quad
+x_3\to 011,\quad
+x_4\to 010,\quad
+x_5\to 001,\quad
+x_6\to 0001,\quad
+x_7\to 0000.
+\]
+平均码长
+\[
+\bar L=(0.20+0.19)\times 2+(0.18+0.17+0.15)\times 3+(0.10+0.01)\times 4=2.72\ \text{bit}.
+\]
+编码效率
+\[
+\eta=\frac{2.61}{2.72}\approx 96.0\%.
+\]
+
+\medskip
+\exercise{习题 7.7}
+\textbf{题目：}
+试确定能重构信号
+\[
+x(t)=\sinc(2000t)
+\]
+所需的最低采样频率。
+
+\par\textbf{解：}
+由
+\[
+\mathcal{F}\{\sinc(2000t)\}=\frac{1}{2000}\rect\!\left(\frac{f}{2000}\right),
+\]
+可知该信号带宽为
+\[
+f_m=1000\ \text{Hz}.
+\]
+按奈奎斯特采样定理，最低采样频率为
+\[
+f_s=2f_m=2000\ \text{Hz}.
+\]
+
+\medskip
+\exercise{习题 7.8}
+\textbf{题目：}
+已知信号
+\[
+s(t)=10m(t)\cos(2000\pi t),
+\]
+其中 $m(t)$ 是带宽为 $100$ Hz 的基带信号。对 $s(t)$ 进行带通信号采样，求频谱不交叠时所需的最低采样频率。
+
+\par\textbf{解：}
+载波频率为
+\[
+f_c=1000\ \text{Hz},
+\]
+因此 $s(t)$ 的频带范围为
+\[
+900\sim1100\ \text{Hz},
+\]
+带宽
+\[
+B=200\ \text{Hz}.
+\]
+按带通信号采样定理，需找整数 $n$ 使
+\[
+\frac{2f_H}{n}\le f_s\le \frac{2f_L}{n-1}.
+\]
+取
+\[
+f_L=900,\qquad f_H=1100.
+\]
+当 $n=5$ 时，
+\[
+\frac{2f_H}{5}=440\ \text{Hz},\qquad \frac{2f_L}{4}=450\ \text{Hz},
+\]
+存在可行区间，因此最低采样频率为
+\[
+f_{s,\min}=440\ \text{Hz}.
+\]
+
+\medskip
+\exercise{习题 7.9}
+\textbf{题目：}
+已知一个 12 路载波电话占有频率范围
+\[
+60\sim108\ \text{kHz},
+\]
+求其最低采样频率。
+
+\par\textbf{解：}
+该带通信号频带为
+\[
+f_L=60\ \text{kHz},\qquad f_H=108\ \text{kHz},
+\]
+带宽为
+\[
+B=48\ \text{kHz}.
+\]
+仍由带通信号采样定理，
+\[
+\frac{2f_H}{n}\le f_s\le \frac{2f_L}{n-1}.
+\]
+当 $n=2$ 时，
+\[
+\frac{2f_H}{2}=108\ \text{kHz},\qquad \frac{2f_L}{1}=120\ \text{kHz},
+\]
+故可取最小采样频率
+\[
+f_{s,\min}=108\ \text{kHz}.
+\]
+
+\medskip
+\exercise{习题 7.10}
+\textbf{题目：}
+已知正弦信号幅度为 $3.25$ V，将它输入到一个 8 电平均匀量化器。设采样率
+\[
+f_s=8\ \text{kHz},
+\]
+正弦信号频率
+\[
+f=800\ \text{Hz},
+\]
+试画出量化输出波形。
+
+\par\textbf{解：}
+输入信号为
+\[
+x(t)=3.25\sin(1600\pi t).
+\]
+采样时刻为
+\[
+t_i=\frac{i}{f_s}=\frac{i}{8000},
+\]
+故采样值为
+\[
+x_i=3.25\sin\!\left(1600\pi\cdot \frac{i}{8000}\right)=3.25\sin\frac{i\pi}{5}.
+\]
+一个周期内有 10 个采样点，对应采样值依次为
+\[
+0,\ 1.91,\ 3.09,\ 3.09,\ 1.91,\ 0,\ -1.91,\ -3.09,\ -3.09,\ -1.91.
+\]
+
+8 电平均匀量化后，可对应到重构电平
+\[
+0.5,\ 1.5,\ 3.5,\ 3.5,\ 1.5,\ 0.5,\ -1.5,\ -3.5,\ -3.5,\ -1.5.
+\]
+因此量化输出波形是按上述 10 个离散电平依次保持的阶梯波。
+
+\medskip
+\exercise{习题 7.11}
+\textbf{题目：}
+已知模拟信号采样值 $X$ 的概率密度为题图 7.11 所示三角分布：
+\[
+p(x)=1-|x|,\qquad |x|\le 1,
+\]
+其余为 0。$X$ 通过一个四电平均匀量化器后成为 $Y$。求：
+\begin{enumerate}
+\item 量化器输入信号功率 $S=E[X^2]$ 与输出信号功率 $S_q=E[Y^2]$；
+\item 量化噪声平均功率 $N_q=E[(Y-X)^2]$；
+\item 量化信噪比 $S/N_q$（单位：dB）。
+\end{enumerate}
+
+\par\textbf{解：}
+输入功率
+\[
+S=E[X^2]=\int_{-1}^{1}x^2p(x)\,dx
+=2\int_0^1 x^2(1-x)\,dx
+=\frac16.
+\]
+
+四电平均匀量化后，输出可表示为
+\[
+Y=\operatorname{sgn}(X)\cdot \frac14(2+W),
+\]
+其中
+\[
+W=\operatorname{sgn}\!\left(|X|-\frac12\right)\in\{\pm1\}.
+\]
+有
+\[
+P\!\left(|X|<\frac12\right)=2\int_0^{0.5}(1-x)\,dx=\frac34,
+\]
+故
+\[
+E[W]=-\frac34+\frac14=-\frac12,\qquad E[W^2]=1.
+\]
+于是
+\[
+S_q=E[Y^2]=\frac1{16}E[(2+W)^2]
+=\frac{4+4E[W]+E[W^2]}{16}
+=\frac{3}{16}.
+\]
+
+量化噪声功率
+\[
+N_q=E[(Y-X)^2]=E[X^2]-2E[XY]+E[Y^2].
+\]
+由题解计算可得
+\[
+E[XY]=\frac16,
+\]
+故
+\[
+N_q=\frac16-2\cdot \frac16+\frac{3}{16}=\frac1{48}.
+\]
+
+量化信噪比为
+\[
+\frac{S}{N_q}=\frac{1/6}{1/48}=8,
+\]
+折合分贝
+\[
+10\log_{10}8\approx 9.03\ \text{dB}.
+\]
+
+\medskip
+\exercise{习题 7.12}
+\textbf{题目：}
+若输入于 A 律 13 折线 PCM 编码器的正弦信号
+\[
+x(t)=\sin(1600\pi t),
+\]
+以
+\[
+f_s=8\ \text{kHz}
+\]
+的速率采样，得到采样序列
+\[
+x(n)=\sin(0.2\pi n),\qquad n=0,1,\dots,10.
+\]
+试求该 PCM 编码器输出的码组序列。
+
+\par\textbf{解：}
+对应采样值依次为
+\[
+0,\ 0.5878,\ 0.9511,\ 0.9511,\ 0.5878,\ 0,\ -0.5878,\ -0.9511,\ -0.9511,\ -0.5878,\ 0.
+\]
+按 A 律 13 折线 PCM 编码规则查表编码，可得到输出码组序列：
+\[
+\begin{aligned}
+&10000000\ 11110010\ 11111110\ 11111110\ 11110010\ 10000000\\
+&01110010\ 01111110\ 01111110\ 01110010\ 00000000
+\end{aligned}
+\]
+共 80 bit。
+
+\medskip
+\exercise{习题 7.13}
+\textbf{题目：}
+某 A 律 13 折线 PCM 编码器的设计输入范围是
+\[
+[-5,+5]\ \text{V},
+\]
+若采样值
+\[
+x=+1.2\ \text{V},
+\]
+求其编码输出及译码输出值。
+
+\par\textbf{解：}
+由于 $x>0$，极性码为
+\[
+1.
+\]
+又因为
+\[
+1.2\in[0.625,1.25],
+\]
+故段落码为
+\[
+101.
+\]
+在该段内再细分 16 小段，$1.2$ 落在倒数第 2 小段，对应段内码
+\[
+1110.
+\]
+因此输出码组为
+\[
+11011110.
+\]
+
+译码输出为该量化小段中心值，约为
+\[
+\hat x\approx 1.191\ \text{V}.
+\]
+
+\medskip
+\exercise{习题 7.14}
+\textbf{题目：}
+在 CD 播放机中，假设音乐采用采样率
+\[
+44.1\ \text{kHz},
+\]
+每个采样 16 bit 的均匀量化线性编码器进行量化、编码。求 50 分钟音乐所需比特数，并求量化信噪比。
+
+\par\textbf{解：}
+50 分钟内所需比特数为
+\[
+N=44.1\times 10^3\times 16\times 50\times 60
+=2.1168\times 10^9\ \text{bit}.
+\]
+
+16 bit 均匀量化的量化信噪比近似为
+\[
+SNR_q\approx 6.02n=6.02\times 16=96.32\ \text{dB},
+\]
+更精确写为
+\[
+SNR_q\approx 96.33\ \text{dB}.
+\]
+
+\medskip
+\exercise{习题 7.15}
+\textbf{题目：}
+一个离散无记忆信源的字符集为
+\[
+\{-5,-3,-1,0,1,2,3\},
+\]
+相应概率为
+\[
+\{0.08,0.20,0.15,0.03,0.12,0.02,0.40\}.
+\]
+求：
+\begin{enumerate}
+\item 信源熵 $H(x)$；
+\item 该信源的哈夫曼编码；
+\item 平均码长 $R$ 及编码效率 $\eta=H(x)/R$；
+\item 若再按量化规则
+\[
+\hat x=
+\begin{cases}
+-2,&x=-5,-3,\\
+0,&x=-1,0,1,\\
+2,&x=2,3,
+\end{cases}
+\]
+求量化后信源熵。
+\end{enumerate}
+
+\par\textbf{解：}
+信源熵为
+\[
+\begin{aligned}
+H(x)=&-0.08\log_2 0.08-0.20\log_2 0.20-0.15\log_2 0.15-0.03\log_2 0.03\\
+&-0.12\log_2 0.12-0.02\log_2 0.02-0.40\log_2 0.40
+\approx 2.33\ \text{bit}.
+\end{aligned}
+\]
+
+一种哈夫曼编码可取
+\[
+3\to 1,\quad -3\to 011,\quad -1\to 010,\quad 1\to 001,\quad -5\to 0001,\quad 0\to 00001,\quad 2\to 00000.
+\]
+
+平均码长为
+\[
+R=0.40+3(0.20+0.15+0.12)+4\times 0.08+5(0.03+0.02)=2.38\ \text{bit}.
+\]
+编码效率
+\[
+\eta=\frac{2.33}{2.38}\approx 97.9\%.
+\]
+
+量化后只有 3 个输出值，其概率分别为
+\[
+P(\hat x=-2)=0.28,\qquad P(\hat x=0)=0.30,\qquad P(\hat x=2)=0.42.
+\]
+故量化后信源熵为
+\[
+H(\hat x)=-0.28\log_2 0.28-0.30\log_2 0.30-0.42\log_2 0.42\approx 1.56\ \text{bit}.
+\]
+
+\medskip
+\exercise{习题 7.16}
+\textbf{题目：}
+分别对 10 路话音信号（每路最高频率分量为 4 kHz）以奈奎斯特速率采样，采样后均匀量化、线性编码，然后将此 10 路 PCM 信号与两路 180 kbit/s 的数据以时分复用方式复用，时分复用输出送至 BPSK 调制器。若要求 BPSK 信号的功率谱主瓣宽度为
+\[
+(100\pm 1)\ \text{MHz},
+\]
+其中 100 MHz 是载频，求每路 PCM 信号允许的最大量化电平数 $M$。
+
+\par\textbf{解：}
+主瓣宽度从 $100-1$ 到 $100+1$ MHz，总宽度为
+\[
+2\ \text{MHz}.
+\]
+对矩形脉冲 BPSK，
+\[
+\text{主瓣宽度}=2R_b,
+\]
+故时分复用后的总码率为
+\[
+R_b=1\ \text{Mbit/s}=1000\ \text{kbit/s}.
+\]
+
+每路语音奈奎斯特采样率为
+\[
+8\ \text{kHz}.
+\]
+若每个样值编码为 $\log_2 M$ bit，则每路 PCM 速率为
+\[
+8\log_2 M\ \text{kbit/s}.
+\]
+10 路 PCM 总速率再加上两路 180 kbit/s 数据，可得
+\[
+10\times 8\log_2 M+2\times 180=1000.
+\]
+即
+\[
+80\log_2 M=640,
+\qquad
+\log_2 M=8.
+\]
+因此
+\[
+M=256.
+\]
+
+\medskip
+\exercise{习题 7.17}
+\textbf{题目：}
+对 10 路模拟信号分别进行 A 律 13 折线 PCM，然后进行时分复用，再以二进制方式经滚降因子为 0.5 的升余弦频谱滚降系统进行无码间干扰传输。该升余弦基带系统的截止频率为
+\[
+480\ \text{kHz}.
+\]
+求：
+\begin{enumerate}
+\item 该系统的最大信息传输速率；
+\item 允许每路模拟信号的最高频率分量 $f_H$。
+\end{enumerate}
+
+\par\textbf{解：}
+升余弦系统截止频率满足
+\[
+\frac{R_b}{2}(1+\alpha)=480\ \text{kHz}.
+\]
+代入
+\[
+\alpha=0.5
+\]
+得
+\[
+R_b=\frac{480\times 2}{1+0.5}=640\ \text{kbit/s}.
+\]
+
+又由于 10 路 A 律 13 折线 PCM，每个采样值编码为 8 bit，因此总码率为
+\[
+10\times 2f_H\times 8.
+\]
+令其等于 640 kbit/s：
+\[
+10\times 2f_H\times 8=640,
+\]
+解得
+\[
+f_H=\frac{640}{160}=4\ \text{kHz}.
+\]
+
+\medskip

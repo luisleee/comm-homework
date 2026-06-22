@@ -1,0 +1,231 @@
+\section*{第 8 章}
+\addcontentsline{toc}{section}{第 8 章}
+
+\exercise{习题 8.1}
+\textbf{题目：}
+已知信道结构如题图所示，求其传递函数和冲激响应，并说明它是时变信道还是时不变信道；说明何种信号通过该信道时失真明显，何种情况下可忽略失真。
+
+\par\textbf{解：}
+该信道等效为两径相加，一径无延迟，一径延迟 $\tau$，故
+\[
+H(f)=1+e^{-j2\pi f\tau},
+\qquad
+h(t)=\delta(t)+\delta(t-\tau).
+\]
+其参数与时间无关，因此是\textbf{时不变信道}。
+
+若信号带宽远小于 $1/\tau$，则在信号频带内 $H(f)$ 的幅相变化很小，可认为\textbf{无明显失真}；当信号带宽与 $1/\tau$ 同数量级或更大时，信道频率响应起伏明显，会出现\textbf{线性失真}。
+
+\medskip
+\exercise{习题 8.2}
+\textbf{题目：}
+已知信道传输特性如题图所示，输入为 DSB 已调信号
+\[
+s(t)=m(t)\cos(2\pi f_ct),
+\]
+且输入频谱满足题图条件，求信道输出信号，并说明有无失真。
+
+\par\textbf{解：}
+由题图，正频率部分传递函数可写为
+\[
+H_+(f)=
+\begin{cases}
+e^{-j2\pi(f-f_c)t_0}, & |f-f_c|\le \dfrac{\Delta f}{2},\\[4pt]
+0, & \text{其他}.
+\end{cases}
+\]
+因此其等效基带传递函数为
+\[
+H_0(f)=H_+(f+f_c)=
+\begin{cases}
+e^{-j2\pi f t_0}, & |f|\le \dfrac{\Delta f}{2},\\[4pt]
+0, & \text{其他}.
+\end{cases}
+\]
+输入复包络为 $m(t)$，故输出复包络频谱为
+\[
+M(f)H_0(f)=M(f)e^{-j2\pi f t_0},
+\]
+对应时域复包络
+\[
+m(t-t_0).
+\]
+于是输出带通信号为
+\[
+s_o(t)=\Re\{m(t-t_0)e^{j2\pi f_ct}\}=m(t-t_0)\cos(2\pi f_ct).
+\]
+所以该信道仅引入\textbf{纯时延} $t_0$，\textbf{无波形失真}。
+
+\medskip
+\exercise{习题 8.3}
+\textbf{题目：}
+某移动通信信道的多普勒扩展为 $100\ \text{Hz}$，求其相干时间。
+
+\par\textbf{解：}
+相干时间近似取为多普勒扩展的倒数：
+\[
+T_c\approx \frac{1}{B_D}=\frac{1}{100}=0.01\ \text{s}=10\ \text{ms}.
+\]
+
+\medskip
+\exercise{习题 8.4}
+\textbf{题目：}
+设随参信道的多径时延扩展为 $25\ \mu s$，欲传输 $100\ \text{kbit/s}$ 的信息速率。问下列调制方式中，哪个有显著的码间干扰：
+\begin{enumerate}
+\item BPSK；
+\item 将数据串并变换为 $100$ 个并行支路后，用 $100$ 个不同载频分别按 BPSK 调制传输。
+\end{enumerate}
+
+\par\textbf{解：}
+信道相干带宽约为
+\[
+B_c\approx \frac{1}{25\ \mu s}=40\ \text{kHz}.
+\]
+
+对方案 1，单路 BPSK 的码元速率约为 $100\ \text{kBaud}$，所需带宽至少也在 $100\ \text{kHz}$ 量级，明显大于相干带宽，因此频率选择性失真明显，\textbf{有显著 ISI}。
+
+对方案 2，串并后每路速率约为
+\[
+\frac{100\ \text{kbit/s}}{100}=1\ \text{kbit/s},
+\]
+码元间隔约为
+\[
+T_s=1\ \text{ms}\gg 25\ \mu s.
+\]
+因此每路近似可看成平坦衰落，\textbf{ISI 可忽略}。
+
+\medskip
+\exercise{习题 8.5}
+\textbf{题目：}
+已知在高斯信道理想通信系统中，传送某一信息所需带宽为 $10^6\ \text{Hz}$，信噪比为 $20\ \text{dB}$。若将所需信噪比降为 $10\ \text{dB}$，求所需信道带宽。
+
+\par\textbf{解：}
+由香农公式
+\[
+C=B\log_2(1+\mathrm{SNR}).
+\]
+在信息速率不变时有
+\[
+B_1\log_2(1+\mathrm{SNR}_1)=B_2\log_2(1+\mathrm{SNR}_2).
+\]
+代入
+\[
+B_1=10^6\ \text{Hz},\qquad \mathrm{SNR}_1=10^{20/10}=100,\qquad \mathrm{SNR}_2=10^{10/10}=10,
+\]
+得
+\[
+B_2=10^6\frac{\log_2(101)}{\log_2(11)}\approx 2.8\times 10^6\ \text{Hz}.
+\]
+
+\medskip
+\exercise{习题 8.6}
+\textbf{题目：}
+某计算机终端的输出是独立等概的 $128$ 进制符号，符号速率是 $R_s$。该终端输出经理想信道编码后通过电话信道传输。设电话信道可建模为 AWGN 信道，其带宽为 $3.4\ \text{kHz}$，信道输出端信噪比为 $20\ \text{dB}$。计算信道容量，并求 $R_s$ 的最大值。
+
+\par\textbf{解：}
+信道容量为
+\[
+C=B\log_2(1+\mathrm{SNR})=3400\log_2(101)\approx 2.2638\times 10^4\ \text{bit/s}.
+\]
+即
+\[
+C\approx 22.64\ \text{kbit/s}.
+\]
+
+由于 $128$ 进制独立等概信源每个符号所含信息量为
+\[
+\log_2 128=7\ \text{bit},
+\]
+故应满足
+\[
+7R_s\le C.
+\]
+因此
+\[
+R_s\le \frac{22.64\times 10^3}{7}\approx 3.234\times 10^3\ \text{Baud}.
+\]
+即
+\[
+R_{s,\max}\approx 3.23\ \text{kBaud}.
+\]
+
+\medskip
+\exercise{习题 8.7}
+\textbf{题目：}
+某待传输图片约含 $2.5\times 10^6$ 个像素。为较好重现图片，每个像素量化为 $16$ 个亮度电平之一。若各亮度电平等概且互不相关，并设加性高斯噪声信道中的信噪比为 $30\ \text{dB}$，试计算用 $3$ 分钟传送一张图片所需的最小信道带宽。
+
+\par\textbf{解：}
+每个像素需要
+\[
+\log_2 16=4\ \text{bit}.
+\]
+故一张图片总信息量为
+\[
+2.5\times 10^6\times 4=10^7\ \text{bit}.
+\]
+传输时间为 $3\ \text{min}=180\ \text{s}$，故所需最低信息速率
+\[
+R=\frac{10^7}{180}\approx 5.556\times 10^4\ \text{bit/s}.
+\]
+
+又由香农公式
+\[
+R\le B\log_2(1+\mathrm{SNR}),
+\qquad
+\mathrm{SNR}=10^{30/10}=1000,
+\]
+得最小带宽
+\[
+B_{\min}=\frac{R}{\log_2(1001)}\approx \frac{5.556\times 10^4}{9.97}\approx 5.57\times 10^3\ \text{Hz}.
+\]
+即
+\[
+B_{\min}\approx 5.57\ \text{kHz}.
+\]
+
+\medskip
+\exercise{习题 8.8}
+\textbf{题目：}
+某信道的等效基带时变冲激响应为
+\[
+h(\tau,t)=\delta(\tau)+e^{j30\pi t}\delta(\tau-10^{-7}),
+\]
+其中各径独立。求：
+\begin{enumerate}
+\item 时延扩展、多普勒扩展、相干时间、相干带宽；
+\item 时变传递函数 $H(f,t)$；
+\item 时延-多普勒域冲激响应。
+\end{enumerate}
+
+\par\textbf{解：}
+由
+\[
+e^{j30\pi t}=e^{j2\pi(15)t}
+\]
+可知第二径的多普勒频移为 $15\ \text{Hz}$。
+
+因此
+\[
+\tau_{\max}=10^{-7}\ \text{s}=0.1\ \mu s,
+\qquad
+B_D=15\ \text{Hz}.
+\]
+相干带宽、相干时间近似为
+\[
+B_c\approx \frac{1}{\tau_{\max}}=10^7\ \text{Hz}=10\ \text{MHz},
+\qquad
+T_c\approx \frac{1}{B_D}=\frac{1}{15}\approx 66.7\ \text{ms}.
+\]
+
+时变传递函数为
+\[
+H(f,t)=\int h(\tau,t)e^{-j2\pi f\tau}\,d\tau
+=1+e^{j30\pi t}e^{-j2\pi f\cdot 10^{-7}}.
+\]
+
+对 $t$ 再作傅里叶变换，可得时延-多普勒域冲激响应
+\[
+h(\tau,\nu)=\delta(\tau)\delta(\nu)+\delta(\tau-10^{-7})\delta(\nu-15).
+\]
+
+\medskip

@@ -1,0 +1,1050 @@
+\section*{第 6 章}
+\addcontentsline{toc}{section}{第 6 章}
+
+\exercise{习题 6.1}
+\textbf{题目：}
+设二进制序列中各符号相互统计独立，两个二进制符号等概率出现，信息速率
+\[
+R_b=1\,\mathrm{Mbit/s}.
+\]
+画出下列随机信号的平均功率谱密度图，并标上频率值：
+\begin{enumerate}
+\item 单极性矩形不归零码序列；
+\item 该单极性矩形不归零码序列乘以载波 $\cos(2\pi f_ct)$ 后得到的 OOK 信号，其中 $f_c=100\,\mathrm{MHz}$。
+\end{enumerate}
+
+\par\textbf{解：}
+比特间隔为
+\[
+T_b=\frac{1}{R_b}=1\,\mu s.
+\]
+
+\textbf{(1) 单极性 NRZ}\par
+单极性 NRZ 可看成 $a_n\in\{0,1\}$、等概率独立的 PAM 信号，因此
+\[
+\mathbb{E}[a_n]=\frac12,\qquad \sigma_a^2=\frac14.
+\]
+矩形脉冲的频谱为
+\[
+G(f)=T_b\sinc(fT_b).
+\]
+双边平均功率谱密度为
+\[
+P_{NRZ}(f)=\frac{T_b}{4}\sinc^2(fT_b)+\frac14\delta(f).
+\]
+连续谱主瓣第一零点在
+\[
+f=\pm \frac{1}{T_b}=\pm 1\,\mathrm{MHz}.
+\]
+
+\textbf{(2) OOK 信号}\par
+OOK 信号可写成
+\[
+s(t)=A\,m(t)\cos(2\pi f_ct).
+\]
+其双边平均功率谱密度为
+\[
+P_{OOK}(f)=\frac{A^2}{4}\Bigl[P_{NRZ}(f-f_c)+P_{NRZ}(f+f_c)\Bigr].
+\]
+代入上式可得
+\[
+P_{OOK}(f)=\frac{A^2T_b}{16}\Bigl[\sinc^2((f-f_c)T_b)+\sinc^2((f+f_c)T_b)\Bigr]
++\frac{A^2}{16}\bigl[\delta(f-f_c)+\delta(f+f_c)\bigr].
+\]
+因此频谱以 $\pm100\,\mathrm{MHz}$ 为中心，主瓣第一零点位于
+\[
+f=\pm(100\pm 1)\,\mathrm{MHz}.
+\]
+
+\medskip
+\exercise{习题 6.2}
+\textbf{题目：}
+某 OOK 系统在区间 $[0,T_b]$ 内等概率发送
+\[
+s_1(t)=\sin\frac{4\pi t}{T_b},
+\qquad
+s_2(t)=0.
+\]
+OOK 信号通过 AWGN 信道传输，信道噪声双边功率谱密度为 $N_0/2$。接收端利用带通型匹配滤波器进行解调。
+
+\begin{enumerate}
+\item 画出匹配滤波器的冲激响应；
+\item 画出匹配滤波器输出的有用信号波形；
+\item 确定最佳判决门限，并求系统平均误比特率。
+\end{enumerate}
+
+\par\textbf{解：}
+\textbf{(1) 匹配滤波器}\par
+匹配滤波器应与 $s_1(t)$ 匹配，因此
+\[
+h(t)=s_1(T_b-t)
+=\sin\!\left(4\pi-\frac{4\pi t}{T_b}\right)
+=-\sin\frac{4\pi t}{T_b},
+\qquad 0\le t\le T_b,
+\]
+其他时刻为 $0$。
+
+\textbf{(2) 输出有用信号}\par
+匹配滤波器输出的有用信号是
+\[
+y_s(t)=s_1(t)*h(t),
+\]
+也就是 $s_1(t)$ 的自相关波形。其峰值出现在最佳采样时刻 $t=T_b$。由于
+\[
+E_1=\int_0^{T_b}\sin^2\frac{4\pi t}{T_b}\,dt=\frac{T_b}{2},
+\]
+故峰值为
+\[
+y_s(T_b)=E_1=\frac{T_b}{2}.
+\]
+因此输出有用信号是一个在 $t=T_b$ 取最大值的相关峰。
+
+\textbf{(3) 门限与误比特率}\par
+由于“1”“0”等概率发送，最佳判决门限取两采样均值的中点：
+\[
+V_T=\frac{E_1+0}{2}=\frac{T_b}{4}.
+\]
+匹配滤波器采样噪声方差为
+\[
+\sigma^2=\frac{N_0}{2}E_1=\frac{N_0T_b}{4}.
+\]
+平均比特能量为
+\[
+E_b=\frac{E_1}{2}=\frac{T_b}{4}.
+\]
+因此平均误比特率为
+\[
+P_b=\frac12\operatorname{erfc}\!\left(\frac{V_T}{\sqrt{2\sigma^2}}\right)
+=\frac12\operatorname{erfc}\!\left(\sqrt{\frac{E_b}{2N_0}}\right).
+\]
+
+\medskip
+\exercise{习题 6.3}
+\textbf{题目：}
+已知二进制 2FSK 通信系统的两个信号波形为
+\[
+s_1(t)=\sin\frac{2\pi}{T_b}t,\qquad
+s_2(t)=\sin\frac{4\pi}{T_b}t,
+\qquad 0\le t\le T_b,
+\]
+其中 $T_b=1\,s$。信号在信道传输中受到均值为 $0$、双边功率谱密度为 $N_0/2$ 的 AWGN 干扰，且 $s_1(t)$ 与 $s_2(t)$ 等概率出现。求：
+\begin{enumerate}
+\item 两信号波形图；
+\item 相关系数 $\rho$ 及平均比特能量 $E_b$；
+\item 最佳接收框图；
+\item 匹配滤波器冲激响应；
+\item 最佳判决门限；
+\item 平均误比特率。
+\end{enumerate}
+
+\par\textbf{解：}
+\textbf{(1)} $s_1(t)$ 在一个比特间隔内完成 1 个周期，$s_2(t)$ 完成 2 个周期。
+
+\textbf{(2)} 两信号的互相关为
+\[
+\int_0^{T_b}s_1(t)s_2(t)\,dt=0,
+\]
+故
+\[
+\rho=0.
+\]
+两信号能量相同：
+\[
+E_1=E_2=\int_0^{T_b}\sin^2\frac{2\pi kt}{T_b}\,dt=\frac{T_b}{2}=\frac12.
+\]
+故平均比特能量为
+\[
+E_b=\frac12.
+\]
+
+\textbf{(3)} 最佳接收机为两路并行带通匹配滤波器或相关器，分别与 $s_1(t)$、$s_2(t)$ 匹配，比较两路采样值大小后作判决。
+
+\textbf{(4)} 两个匹配滤波器的冲激响应为
+\[
+h_1(t)=s_1(T_b-t)= -\sin\frac{2\pi t}{T_b},\qquad 0\le t\le T_b,
+\]
+\[
+h_2(t)=s_2(T_b-t)= -\sin\frac{4\pi t}{T_b},\qquad 0\le t\le T_b.
+\]
+
+\textbf{(5)} 由于两信号等能量且等概率，最佳判决门限为
+\[
+V_T=0.
+\]
+
+\textbf{(6)} 若发送 $s_1(t)$，则判决统计量可写成
+\[
+y=E_b+Z,
+\]
+其中 $Z$ 为零均值高斯变量，方差为
+\[
+\sigma_Z^2=N_0E_b=\frac{N_0}{2}.
+\]
+因此平均误比特率为
+\[
+P_b=\frac12\operatorname{erfc}\!\left(\sqrt{\frac{E_b}{2N_0}}\right).
+\]
+由于 $E_b=\frac12$，也可写成
+\[
+P_b=\frac12\operatorname{erfc}\!\left(\frac{1}{2\sqrt{N_0}}\right).
+\]
+
+\medskip
+\exercise{习题 6.4}
+\textbf{题目：}
+设二进制信息速率为 $1\,\mathrm{Mbit/s}$，二进制序列中两个二进制符号等概率出现且相互独立。画出下列随机信号的双边平均功率谱密度图，并标上频率值：
+\begin{enumerate}
+\item 双极性矩形不归零码序列；
+\item 双极性矩形不归零码序列通过乘法器后的 BPSK 信号，设载频 $f_c=100\,\mathrm{MHz}$。
+\end{enumerate}
+
+\par\textbf{解：}
+仍有
+\[
+T_b=1\,\mu s.
+\]
+
+\textbf{(1) 双极性 NRZ}\par
+令 $a_n=\pm1$ 等概独立，则
+\[
+\mathbb{E}[a_n]=0,\qquad \mathbb{E}[a_n^2]=1.
+\]
+故双边平均功率谱密度为
+\[
+P_{bNRZ}(f)=T_b\sinc^2(fT_b).
+\]
+第一零点在
+\[
+f=\pm1\,\mathrm{MHz}.
+\]
+
+\textbf{(2) BPSK}\par
+BPSK 信号可写成
+\[
+s(t)=A\,m(t)\cos(2\pi f_ct).
+\]
+其双边平均功率谱密度为
+\[
+P_{BPSK}(f)=\frac{A^2}{4}\Bigl[P_{bNRZ}(f-f_c)+P_{bNRZ}(f+f_c)\Bigr].
+\]
+即
+\[
+P_{BPSK}(f)=\frac{A^2T_b}{4}
+\Bigl[
+\sinc^2((f-f_c)T_b)+\sinc^2((f+f_c)T_b)
+\Bigr].
+\]
+因此双边频谱关于 $0$ 对称，在 $\pm100\,\mathrm{MHz}$ 处为中心，第一零点位于
+\[
+f=\pm(100\pm1)\,\mathrm{MHz}.
+\]
+由于基带均值为零，BPSK 频谱中没有离散载波谱线。
+
+\medskip
+\exercise{习题 6.5}
+\textbf{题目：}
+BPSK 信号
+\[
+s_1(t)=A\cos\omega_ct,\qquad
+s_2(t)=-A\cos\omega_ct,\qquad 0\le t\le T_b
+\]
+分别表示发送“1”和“0”。信道中叠加均值为 $0$、双边功率谱密度为 $N_0/2$ 的 AWGN，且两信号等概率出现。
+
+求：
+\begin{enumerate}
+\item 相关系数 $\rho$ 及平均比特能量 $E_b$；
+\item 利用相关型解调实现 BPSK 最佳接收的框图；
+\item 发 $s_2(t)$ 时，最佳采样值 $y$ 的条件均值、条件方差及条件概率密度；
+\item 平均误比特率。
+\end{enumerate}
+
+\par\textbf{解：}
+\textbf{(1)} 由于
+\[
+s_2(t)=-s_1(t),
+\]
+故
+\[
+\rho=-1.
+\]
+平均比特能量为
+\[
+E_b=\int_0^{T_b}A^2\cos^2\omega_ct\,dt=\frac{A^2T_b}{2}.
+\]
+
+\textbf{(2)} 最佳相关接收机可表述为：接收信号与本地载波 $s_1(t)$ 做相关，采样后与零门限比较完成判决。
+
+\textbf{(3)} 发 $s_2(t)$ 时，
+\[
+y=\int_0^{T_b}[s_2(t)+n(t)]s_1(t)\,dt=-E_b+Z,
+\]
+其中
+\[
+Z\sim\mathcal{N}\!\left(0,\frac{N_0E_b}{2}\right).
+\]
+故
+\[
+\mathbb{E}[y|s_2]=-E_b,
+\qquad
+D(y|s_2)=\frac{N_0E_b}{2}.
+\]
+条件概率密度为
+\[
+p_2(y)=\frac{1}{\sqrt{\pi N_0E_b}}
+\exp\!\left[-\frac{(y+E_b)^2}{N_0E_b}\right].
+\]
+
+\textbf{(4)} 最佳门限为 $0$，故平均误比特率为
+\[
+P_b=\frac12\operatorname{erfc}\!\left(\sqrt{\frac{E_b}{N_0}}\right).
+\]
+
+\medskip
+\exercise{习题 6.6}
+\textbf{题目：}
+在 AWGN 干扰下对 BPSK 信号进行相干解调，恢复载波与发送载波的相位差为固定常数 $\theta$，且 $|\theta|<\pi/2$。设 BPSK 采用矩形脉冲成形，已调信号幅度为 $A$。
+\begin{enumerate}
+\item 写出宽带白高斯噪声通过窄带带通滤波器后的噪声 $n(t)$ 的数学表达式，画出其功率谱密度图，并求均值与方差；
+\item 证明该系统的平均误比特率为
+\[
+P_b=\frac12\operatorname{erfc}\!\left(\sqrt{\frac{E_b}{N_0}}\cos\theta\right).
+\]
+\end{enumerate}
+
+\par\textbf{解：}
+\textbf{(1)} 窄带带通噪声可表示为
+\[
+n(t)=n_c(t)\cos(2\pi f_ct+\theta)-n_s(t)\sin(2\pi f_ct+\theta),
+\]
+其中 $n_c(t)$、$n_s(t)$ 是相互独立的低通高斯过程。其均值为
+\[
+\mathbb{E}[n(t)]=0.
+\]
+功率谱密度只分布在 $\pm f_c$ 附近，带宽等于带通滤波器带宽 $B$，总方差为
+\[
+\sigma_n^2=\mathbb{E}[n^2(t)]=N_0B.
+\]
+
+\textbf{(2)} 相干解调后的采样统计量为
+\[
+y=\pm A\cos\theta+Z,
+\]
+其中
+\[
+Z\sim\mathcal{N}(0,\sigma^2).
+\]
+由矩形脉冲 BPSK 的等效关系可得
+\[
+\frac{A^2}{2}=E_b.
+\]
+仍以零为门限判决，则平均误比特率为
+\[
+P_b=P(Z>A\cos\theta)
+=\frac12\operatorname{erfc}\!\left(\frac{A\cos\theta}{\sqrt{2\sigma^2}}\right)
+=\frac12\operatorname{erfc}\!\left(\sqrt{\frac{E_b}{N_0}}\cos\theta\right).
+\]
+
+\medskip
+\exercise{习题 6.7}
+\textbf{题目：}
+BPSK 信号
+\[
+s_1(t)=A\cos\omega_ct,\qquad
+s_2(t)=-A\cos\omega_ct,\qquad 0\le t\le T_b
+\]
+中，二进制序列为不相关序列，$s_1(t)$ 与 $s_2(t)$ 等概率出现。
+\begin{enumerate}
+\item 画出该 BPSK 信号的双边平均功率谱密度图；
+\item 画出 BPSK 接收机提取载波的两种方框图，并简要说明工作原理。
+\end{enumerate}
+
+\par\textbf{解：}
+\textbf{(1)} 由双极性 NRZ 调制得到的 BPSK 信号双边平均功率谱密度为
+\[
+P_{BPSK}(f)=\frac{A^2T_b}{4}
+\Bigl[
+\sinc^2((f-f_c)T_b)+\sinc^2((f+f_c)T_b)
+\Bigr].
+\]
+谱形关于 $0$ 对称，以 $\pm f_c$ 为中心；若以题中比特间隔为 $T_b$，则主瓣第一零点位于
+\[
+f=\pm\left(f_c\pm \frac{1}{T_b}\right).
+\]
+
+\textbf{(2)} 常用载波提取方法有两种：
+\begin{enumerate}
+\item 平方环法：先对 BPSK 信号平方，去掉 $\pm1$ 造成的相位翻转，再经窄带滤波和分频恢复载波；
+\item Costas 环法：利用 I/Q 正交乘法器、低通和环路滤波器构成闭环，锁定本地振荡器相位，实现相干载波恢复。
+\end{enumerate}
+
+\medskip
+\exercise{习题 6.8}
+\textbf{题目：}
+假设 BPSK 信号在信道传输中受到 AWGN 干扰，噪声均值为 0，双边功率谱密度
+\[
+\frac{N_0}{2}=10^{-10}\,\mathrm{W/Hz},
+\]
+发送信号比特能量
+\[
+E_b=\frac12A^2T_b,
+\]
+其中 $T_b$ 为比特间隔，$A$ 为信号幅度。若最佳接收的平均误比特率
+\[
+P_b=10^{-3},
+\]
+求输入信息速率 $R_b$ 分别为
+\[
+10\,\mathrm{kbit/s},\quad 100\,\mathrm{kbit/s},\quad 1\,\mathrm{Mbit/s}
+\]
+时的 BPSK 信号幅度 $A$。
+
+\par\textbf{解：}
+由题给条件
+\[
+\frac12\operatorname{erfc}\!\left(\sqrt{\frac{E_b}{N_0}}\right)=10^{-3}
+\]
+可知
+\[
+\frac{E_b}{N_0}=10^{6.8/10}\approx 4.7863.
+\]
+又因
+\[
+N_0=2\times 10^{-10}\,\mathrm{W/Hz},
+\qquad
+T_b=\frac1{R_b},
+\]
+故
+\[
+\frac12A^2T_b=4.7863N_0
+\]
+即
+\[
+A=\sqrt{2R_b\cdot 4.7863N_0}.
+\]
+
+分别代入三种速率：
+\[
+R_b=10\,\mathrm{kbit/s}\Rightarrow A\approx 4.376\,\mathrm{mV},
+\]
+\[
+R_b=100\,\mathrm{kbit/s}\Rightarrow A\approx 13.84\,\mathrm{mV},
+\]
+\[
+R_b=1\,\mathrm{Mbit/s}\Rightarrow A\approx 43.76\,\mathrm{mV}.
+\]
+
+\medskip
+\exercise{习题 6.9}
+\textbf{题目：}
+一 DPSK 数字通信系统，信息速率为 $R_b$，输入数据为
+\[
+110100010110\cdots
+\]
+\begin{enumerate}
+\item 写出相对码（设相对码的第一个比特为 1）；
+\item 画出 DPSK 发送框图；
+\item 写出 DPSK 发送信号的载波相位（设第一个比特的 DPSK 信号载波相位为 0）；
+\item 画出 DPSK 信号的平均功率谱密度图（标明频率值，假设“1”“0”等概率出现）。
+\end{enumerate}
+
+\par\textbf{解：}
+\textbf{(1)} 采用差分编码后，相对码序列为
+\[
+1011000011011\cdots
+\]
+
+\textbf{(2)} 发送框图可表述为：
+\[
+\text{输入比特流}
+\rightarrow
+\text{差分编码}
+\rightarrow
+\text{BPSK 调制}
+\rightarrow
+\text{DPSK 信号}.
+\]
+
+\textbf{(3)} 若相对码比特“1”对应相位 $0$，“0”对应相位 $\pi$，则各码元载波相位依次为
+\[
+0,\ \pi,\ 0,\ 0,\ \pi,\ \pi,\ \pi,\ \pi,\ 0,\ 0,\ \pi,\ 0,\ 0,\dots
+\]
+
+\textbf{(4)} 差分编码不改变“1”“0”等概、独立的统计特性，因此 DPSK 的平均功率谱密度与对应 BPSK 的谱形相同：
+\[
+P_{DPSK}(f)=\frac{A^2T_b}{4}
+\Bigl[
+\sinc^2((f-f_c)T_b)+\sinc^2((f+f_c)T_b)
+\Bigr].
+\]
+它关于 $0$ 对称，以 $\pm f_c$ 为中心，第一零点位于
+\[
+f=\pm\left(f_c\pm \frac{1}{T_b}\right).
+\]
+
+\medskip
+\exercise{习题 6.10}
+\textbf{题目：}
+一数字通信系统的收发信机，发送二进制信息速率为 $2\,\mathrm{Mbit/s}$，发送载频为 $800\,\mathrm{MHz}$，要求发射频谱限于
+\[
+(800\pm 1)\,\mathrm{MHz}.
+\]
+请设计最佳频带传输系统：
+\begin{enumerate}
+\item 画出发送原理框图，并画出数字调制器各点的双边功率谱密度图；
+\item 写出该最佳频带传输系统的平均误比特率计算公式。
+\end{enumerate}
+
+\par\textbf{解：}
+总可用带宽为 $2\,\mathrm{MHz}$，要发送 $2\,\mathrm{Mbit/s}$，故所需频带利用率至少为
+\[
+1\,\mathrm{bit/s/Hz}.
+\]
+考虑实现复杂度，取四进制调制最合适，因此选用
+\[
+\text{QPSK}.
+\]
+若采用滚降系数
+\[
+\alpha=1,
+\]
+则 QPSK 的符号速率为
+\[
+R_s=\frac{R_b}{2}=1\,\mathrm{MBaud},
+\]
+恰可使通带限制在
+\[
+800\pm1\,\mathrm{MHz}.
+\]
+
+发送结构可表述为：
+\[
+\text{输入比特流}
+\rightarrow
+\text{串并变换}
+\rightarrow
+\text{I/Q 映射为 }\pm1
+\rightarrow
+\text{脉冲成形}
+\rightarrow
+\begin{cases}
+\times \cos(2\pi f_ct)\\
+\times (-\sin(2\pi f_ct))
+\end{cases}
+\rightarrow
+\text{相加}.
+\]
+
+其中 A、B 两个基带支路的功率谱密度都以 $0$ 为中心，带宽为 $\pm1\,\mathrm{MHz}$；C 点 QPSK 信号的功率谱密度以
+\[
+f_c=800\,\mathrm{MHz}
+\]
+为中心，主要分布在
+\[
+799\sim 801\,\mathrm{MHz}.
+\]
+
+QPSK 的最佳接收平均误比特率与 BPSK 相同：
+\[
+P_b=\frac12\operatorname{erfc}\!\left(\sqrt{\frac{E_b}{N_0}}\right).
+\]
+
+\medskip
+\exercise{习题 6.11}
+\textbf{题目：}
+某三次群（$34.368\,\mathrm{Mbit/s}$）数字微波系统，载波频率为 $6\,\mathrm{GHz}$，信道频带宽度为 $25.776\,\mathrm{MHz}$。请设计在 AWGN 干扰下无码间干扰的 QPSK 调制及解调最佳频带传输系统。
+
+\par\textbf{解：}
+QPSK 每个符号携带 2 bit，因此符号速率为
+\[
+R_s=\frac{34.368}{2}=17.184\,\mathrm{MBaud}.
+\]
+带通信道宽度与滚降系数满足
+\[
+W=R_s(1+\alpha).
+\]
+代入
+\[
+W=25.776\,\mathrm{MHz}
+\]
+得
+\[
+\alpha=\frac{25.776}{17.184}-1=0.5.
+\]
+
+因此最佳方案为：
+\begin{enumerate}
+\item 发射端：串并变换后，I/Q 两路分别映射为 $\pm1$；
+\item I、Q 两路都采用滚降系数 $\alpha=0.5$ 的根升余弦（RRC）成形；
+\item 分别与 $\cos(2\pi f_ct)$ 和 $-\sin(2\pi f_ct)$ 相乘后相加形成 QPSK；
+\item 接收端：正交相干解调，I/Q 两路分别经同样的 RRC 匹配滤波器，再采样判决、并串变换恢复数据。
+\end{enumerate}
+
+该系统满足无码间干扰条件，且在 AWGN 下为最佳接收结构。其误比特率公式仍为
+\[
+P_b=\frac12\operatorname{erfc}\!\left(\sqrt{\frac{E_b}{N_0}}\right).
+\]
+
+\medskip
+\exercise{习题 6.12}
+\textbf{题目：}
+已知 OQPSK 调制器的输入二进制序列中两个二进制符号等概率出现且相互独立，信息速率
+\[
+R_b=2\,\mathrm{Mbit/s}.
+\]
+\begin{enumerate}
+\item 画出 OQPSK 调制器框图（成形滤波器为矩形 NRZ 脉冲）；
+\item 若输入数据为 $1110010\cdots$，画出同相支路与正交支路基带信号 $I(t)$、$Q(t)$ 的波形；
+\item 画出 OQPSK 调制信号的单边功率谱密度图。
+\end{enumerate}
+
+\par\textbf{解：}
+\textbf{(1)} OQPSK 调制器结构为：
+\[
+\text{串并变换}
+\rightarrow
+\begin{cases}
+\text{I 路：映射为 }\pm1 \rightarrow \text{NRZ}\\
+\text{Q 路：映射为 }\pm1 \rightarrow \text{NRZ} \rightarrow \text{延迟 }T_b/2
+\end{cases}
+\rightarrow
+\begin{cases}
+\times \cos(2\pi f_ct)\\
+\times (-\sin(2\pi f_ct))
+\end{cases}
+\rightarrow
+\text{相加}.
+\]
+由于
+\[
+R_b=2\,\mathrm{Mbit/s},
+\]
+故
+\[
+T_b=0.5\,\mu s,
+\qquad
+\frac{T_b}{2}=0.25\,\mu s.
+\]
+
+\textbf{(2)} 串并变换后
+\[
+I\text{ 路数据}=1100\cdots,\qquad Q\text{ 路数据}=1010\cdots.
+\]
+映射为 $\pm1$ 后，
+\[
+I(t)
+=
+\begin{cases}
++1,&0\le t<4T_b,\\
+-1,&4T_b\le t<8T_b,
+\end{cases}
+\]
+而 $Q(t)$ 在延迟 $T_b/2$ 后按
+\[
++1,-1,+1,-1,\dots
+\]
+交替变化，翻转时刻依次出现在
+\[
+t=T_b,\ 3T_b,\ 5T_b,\ 7T_b,\dots
+\]
+
+\textbf{(3)} OQPSK 的功率谱密度与 QPSK 近似相同，主谱集中在载频 $f_c$ 附近，第一零点约位于
+\[
+f=f_c\pm 1\,\mathrm{MHz}.
+\]
+因此其单边功率谱密度图是以 $f_c$ 为中心的主瓣加对称旁瓣。
+
+\medskip
+\exercise{习题 6.13}
+\textbf{题目：}
+4ASK 信号产生框图如题图所示。输入二进制序列经二电平变四电平后得到符号序列
+\[
+a_n\in\{-3,-1,+1,+3\},
+\]
+符号间互不相关，四电平等概率出现。发送滤波器冲激响应为矩形 NRZ 脉冲 $g_T(t)$。画出图中 A 点与 B 点的双边功率谱密度图，并标上频率值。
+
+\par\textbf{解：}
+A 点信号是四电平 PAM：
+\[
+x_A(t)=\sum_n a_n g_T(t-nT_s).
+\]
+由于
+\[
+\mathbb{E}[a_n]=0,\qquad
+\mathbb{E}[a_n^2]=\frac{9+1+1+9}{4}=5,
+\]
+故 A 点功率谱密度只有连续谱，形状为以 $f=0$ 为中心的 $\sinc^2$ 型低通谱。
+
+B 点为 4ASK 调制信号
+\[
+x_B(t)=x_A(t)\cos(2\pi f_ct),
+\]
+其双边功率谱密度为
+\[
+P_B(f)=\frac14\Bigl[P_A(f-f_c)+P_A(f+f_c)\Bigr].
+\]
+因此 B 点的双边谱是将 A 点低通谱平移到
+\[
+f=\pm f_c
+\]
+附近得到的两个带通信号谱瓣。
+
+\medskip
+\exercise{习题 6.14}
+\textbf{题目：}
+4ASK 系统发送信号等概取自集合
+\[
+\{-3f_1(t),-f_1(t),f_1(t),3f_1(t)\},
+\]
+通过 AWGN 信道传输，接收框图如题图所示。求：
+\begin{enumerate}
+\item 判决器输入噪声方差；
+\item 四种发送条件下判决统计量的均值；
+\item 最大似然判决域；
+\item 平均误符号率。
+\end{enumerate}
+
+\par\textbf{解：}
+\textbf{(1)} 匹配滤波器或相关器输出噪声方差为
+\[
+\sigma^2=\frac{N_0}{2}.
+\]
+
+\textbf{(2)} 四种发送条件下，判决统计量均值分别为
+\[
+-3,\quad -1,\quad +1,\quad +3.
+\]
+
+\textbf{(3)} 最大似然判决门限取相邻均值中点，因此 4 个判决域依次为
+\[
+(-\infty,-2),\qquad [-2,0),\qquad [0,2),\qquad [2,\infty).
+\]
+
+\textbf{(4)} 由对称性，外侧两点与内侧两点的错误概率分别为
+\[
+q=\frac12\operatorname{erfc}\!\left(\frac{1}{\sqrt{N_0}}\right),
+\qquad
+2q.
+\]
+因此平均误符号率为
+\[
+P_s=\frac{q+2q+2q+q}{4}
+=\frac32 q
+=\frac34\operatorname{erfc}\!\left(\frac{1}{\sqrt{N_0}}\right).
+\]
+
+\medskip
+\exercise{习题 6.15}
+\textbf{题目：}
+QPSK 信号表示为
+\[
+s_i(t)=\sqrt{\frac{2}{T_s}}
+\cos\!\left(2\pi f_ct+\frac{2\pi(i-1)}{4}\right),
+\qquad i=1,2,3,4,\quad 0\le t\le T_s.
+\]
+两个归一化正交基函数为
+\[
+f_1(t)=\sqrt{\frac{2}{T_s}}\cos 2\pi f_ct,\qquad
+f_2(t)=-\sqrt{\frac{2}{T_s}}\sin 2\pi f_ct.
+\]
+求：
+\begin{enumerate}
+\item 星座图及各星座点坐标；
+\item 平均符号能量 $E_s$ 与平均比特能量 $E_b$；
+\item 若各星座点等概出现，信道单边噪声功率谱密度 $N_0=0.1\,\mathrm{W/Hz}$，求误比特率和误符号率。
+\end{enumerate}
+
+\par\textbf{解：}
+\textbf{(1)} 四个波形分别为
+\[
+s_1(t)=f_1(t),\qquad s_2(t)=f_2(t),\qquad s_3(t)=-f_1(t),\qquad s_4(t)=-f_2(t).
+\]
+因此对应星座点依次为
+\[
+1,\quad j,\quad -1,\quad -j,
+\]
+在二维坐标中分别是
+\[
+(1,0),\ (0,1),\ (-1,0),\ (0,-1).
+\]
+
+\textbf{(2)} 每个符号的能量均为 1，因此
+\[
+E_s=1.
+\]
+QPSK 每个符号携带 2 bit，故
+\[
+E_b=\frac{E_s}{2}=\frac12.
+\]
+
+\textbf{(3)} 误比特率为
+\[
+P_b=\frac12\operatorname{erfc}\!\left(\sqrt{\frac{E_b}{N_0}}\right)
+=\frac12\operatorname{erfc}(\sqrt{5})
+\approx 7.83\times 10^{-4}.
+\]
+在高信噪比下，QPSK 的误符号率近似为 BER 的 2 倍：
+\[
+P_s\approx 2P_b\approx 1.57\times 10^{-3}.
+\]
+
+\medskip
+\exercise{习题 6.16}
+\textbf{题目：}
+8PSK 及 8QAM 星座图如题图所示，各星座点等概率出现。
+\begin{enumerate}
+\item 若 8QAM 星座图中星座点之间的最小欧氏距离为 $A$，求使平均符号能量最小的内圆与外圆半径 $a,b$；
+\item 若 8PSK 中相邻星座点间距离为 $A$，求圆半径 $r$；
+\item 求两类星座图的平均符号能量。
+\end{enumerate}
+
+\par\textbf{解：}
+\textbf{(1)} 8QAM 的平均符号能量为
+\[
+E_s=\frac{a^2+b^2}{2}.
+\]
+内圆相邻点间距为
+\[
+d_1=\sqrt2\,a,
+\]
+内外圆最近点间距为
+\[
+d_2=\sqrt{a^2+b^2-\sqrt2ab}.
+\]
+要使平均能量最小，必有
+\[
+d_1=d_2=A.
+\]
+于是
+\[
+a=\frac{A}{\sqrt2},
+\qquad
+b=\frac{1+\sqrt3}{2}A.
+\]
+
+\textbf{(2)} 对于 8PSK，
+\[
+A=2r\sin\frac{\pi}{8},
+\]
+故
+\[
+r=\frac{A}{2\sin(\pi/8)}\approx 1.3066A.
+\]
+
+\textbf{(3)} 对 8QAM，
+\[
+E_{s,8QAM}
+=\frac12\left(\frac{A^2}{2}+\frac{(1+\sqrt3)^2A^2}{4}\right)
+=\frac{3+\sqrt3}{4}A^2
+\approx 1.1830A^2.
+\]
+对 8PSK，
+\[
+E_{s,8PSK}=r^2\approx 1.707A^2.
+\]
+因此在相同最小欧氏距离 $A$ 下，8QAM 的平均符号能量比 8PSK 小，约节省
+\[
+10\log_{10}\frac{1.707}{1.183}\approx 1.59\,\mathrm{dB}.
+\]
+
+\medskip
+\exercise{习题 6.17}
+\textbf{题目：}
+题 6.16 中的每个信号矢量都携带 3 个比特的二进制符号。
+\begin{enumerate}
+\item 若调制器输入信息速率 $R_b=90\,\mathrm{Mbit/s}$，求 8PSK 与 8QAM 的符号速率 $R_s$；
+\item 在给定最小欧氏距离 $A$ 的条件下，比较 8PSK 与 8QAM 所需 $E_b/N_0$ 的比值。
+\end{enumerate}
+
+\par\textbf{解：}
+\textbf{(1)} 每个符号携带 3 bit，因此两者的符号速率相同：
+\[
+R_s=\frac{R_b}{3}=\frac{90}{3}=30\,\mathrm{MBaud}.
+\]
+
+\textbf{(2)} 因为两者每个符号都携带 3 bit，故在给定相同最小距离 $A$ 时，所需
+\[
+\frac{E_b}{N_0}
+\]
+之比等于平均符号能量之比：
+\[
+\frac{(E_b/N_0)_{8PSK}}{(E_b/N_0)_{8QAM}}
+=\frac{E_{s,8PSK}}{E_{s,8QAM}}
+=\frac{1.707}{1.183}
+\approx 1.443.
+\]
+折合分贝约为
+\[
+10\log_{10}(1.443)\approx 1.60\,\mathrm{dB}.
+\]
+
+\medskip
+\exercise{习题 6.18}
+\textbf{题目：}
+设计一数字通信系统：二进制序列经 MQAM 调制，以 $2400\,\mathrm{Baud}$ 的符号速率在
+\[
+300\sim3300\,\mathrm{Hz}
+\]
+的话音频带信道中传输。
+\begin{enumerate}
+\item 若 $R_b=9600\,\mathrm{bit/s}$，请画出调制框图并说明，并画出图中各点功率谱图；
+\item 若 $R_b=14400\,\mathrm{bit/s}$，按上述要求设计。
+\end{enumerate}
+
+\par\textbf{解：}
+取载频为话音带宽中心频率：
+\[
+f_c=\frac{300+3300}{2}=1800\,\mathrm{Hz}.
+\]
+信道带宽为
+\[
+3000\,\mathrm{Hz}.
+\]
+又由于符号速率
+\[
+R_s=2400\,\mathrm{Baud},
+\]
+升余弦带宽满足
+\[
+3000=2400(1+\alpha),
+\]
+故
+\[
+\alpha=0.25.
+\]
+
+\textbf{(1) $R_b=9600\,\mathrm{bit/s}$}\par
+每个符号需携带
+\[
+\frac{9600}{2400}=4\ \text{bit},
+\]
+故选
+\[
+16QAM.
+\]
+调制结构可表述为：
+\[
+\text{串并变换}
+\rightarrow
+\text{I/Q 映射为 4 电平}
+\rightarrow
+\text{RRC 成形 }(\alpha=0.25)
+\rightarrow
+\begin{cases}
+\times \cos(2\pi f_ct)\\
+\times (-\sin(2\pi f_ct))
+\end{cases}
+\rightarrow
+\text{相加}.
+\]
+
+\textbf{(2) $R_b=14400\,\mathrm{bit/s}$}\par
+每个符号需携带
+\[
+\frac{14400}{2400}=6\ \text{bit},
+\]
+故选
+\[
+64QAM.
+\]
+调制框图与上题相同，只是 I/Q 两路分别映射为 8 电平。
+
+两种情况下，I 路和 Q 路基带功率谱密度都以 0 为中心，支撑范围大致在
+\[
+-1500\sim1500\,\mathrm{Hz};
+\]
+QAM 通带功率谱密度则平移到
+\[
+300\sim3300\,\mathrm{Hz}
+\]
+内，中心频率为
+\[
+1800\,\mathrm{Hz}.
+\]
+
+\medskip
+\exercise{习题 6.19}
+\textbf{题目：}
+MPSK 信号表示式为
+\[
+s_i(t)=A\cos\!\left[2\pi f_ct+\frac{2\pi(i-1)}{M}\right],
+\qquad i=1,2,\dots,M,\quad 0\le t\le T_s.
+\]
+请分别写出 QPSK 及 8PSK 信号的解析信号及复包络表达式。
+
+\par\textbf{解：}
+一般 MPSK 的解析信号为
+\[
+z_i(t)=e^{j\left[2\pi f_ct+\frac{2\pi(i-1)}{M}\right]},
+\qquad i=1,2,\dots,M.
+\]
+对应复包络为
+\[
+s_{i,L}(t)=e^{j\frac{2\pi(i-1)}{M}},
+\qquad i=1,2,\dots,M.
+\]
+
+\textbf{QPSK}\par
+\[
+z_i(t)=e^{j\left(2\pi f_ct+\frac{\pi(i-1)}{2}\right)},
+\qquad
+s_{i,L}(t)=e^{j\frac{\pi(i-1)}{2}},
+\qquad i=1,2,3,4.
+\]
+
+\textbf{8PSK}\par
+\[
+z_i(t)=e^{j\left(2\pi f_ct+\frac{\pi(i-1)}{4}\right)},
+\qquad
+s_{i,L}(t)=e^{j\frac{\pi(i-1)}{4}},
+\qquad i=1,2,\dots,8.
+\]
+
+\medskip
+\exercise{习题 6.20}
+\textbf{题目：}
+MQAM 信号表示式为
+\[
+s_i(t)=a_{ic}g_T(t)\cos\omega_ct-a_{is}g_T(t)\sin\omega_ct,
+\qquad i=1,2,\dots,M,
+\]
+其中 $\{a_{ic}\}$ 及 $\{a_{is}\}$ 是一组离散幅度集合，$g_T(t)$ 是基带成形滤波器的冲激响应。请写出矩形星座 16QAM 信号的解析信号及复包络表示式。
+
+\par\textbf{解：}
+矩形星座 16QAM 的解析信号为
+\[
+z_i(t)=\bigl(a_{ic}+ja_{is}\bigr)g_T(t)e^{j\omega_ct},
+\qquad i=1,2,\dots,16,
+\]
+其复包络为
+\[
+s_L(t)=\bigl(a_{ic}+ja_{is}\bigr)g_T(t).
+\]
+对矩形 16QAM，
+\[
+a_{ic},a_{is}\in\{\pm1,\pm3\}.
+\]
+
+\medskip
+\exercise{习题 6.21}
+\textbf{题目：}
+为实现 GSM 系统中 $BT_b=0.3$ 的 GMSK 调制器（二进制符号速率 $R_b=270.833\,\mathrm{kbit/s}$）的基带数字化，请选择合适的离散采样速率 $f_s$（每比特抽样点数）及每个样值的量化比特数，并说明如何生成 $\cos\theta(t)$ 与 $\sin\theta(t)$ 查找表。
+
+\par\textbf{解：}
+按教材给出的设计结果，可取采样率为
+\[
+f_s=8R_b,
+\]
+即每比特取 8 个样点。
+
+量化比特数可取
+\[
+10\ \text{bit}.
+\]
+
+在此基础上，可按所选过采样率离散计算相位函数 $\theta(t)$，再逐点生成
+\[
+\cos\theta(t),\qquad \sin\theta(t)
+\]
+的查找表，供数字化 GMSK 调制器调用。
+
+\medskip
