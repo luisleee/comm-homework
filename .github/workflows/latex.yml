@@ -14,6 +14,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
@@ -25,9 +27,33 @@ jobs:
           root_file: 通信原理习题答案拼贴版.tex
           latexmk_use_xelatex: true
 
+      - name: Prepare release asset
+        if: github.event_name == 'push'
+        id: release_asset
+        shell: bash
+        run: |
+          short_sha="${GITHUB_SHA::7}"
+          asset_name="comm-homework-${short_sha}.pdf"
+          cp "通信原理习题答案拼贴版.pdf" "${asset_name}"
+          echo "tag=commit-${GITHUB_SHA}" >> "${GITHUB_OUTPUT}"
+          echo "name=commit-${short_sha}" >> "${GITHUB_OUTPUT}"
+          echo "asset=${asset_name}" >> "${GITHUB_OUTPUT}"
+
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
         with:
           name: latex-pdf
           path: 通信原理习题答案拼贴版.pdf
           if-no-files-found: error
+
+      - name: Publish GitHub release
+        if: github.event_name == 'push'
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ steps.release_asset.outputs.tag }}
+          name: ${{ steps.release_asset.outputs.name }}
+          target_commitish: ${{ github.sha }}
+          body: |
+            Automated PDF build for commit `${{ github.sha }}`.
+          files: ${{ steps.release_asset.outputs.asset }}
+          fail_on_unmatched_files: true
